@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -35,14 +36,14 @@ enum class IshaaraButtonVariant {
 }
 
 enum class IshaaraButtonSize(val minHeight: Dp, val horizontalPadding: Dp, val iconSize: Dp) {
-    Small(minHeight = 36.dp, horizontalPadding = 12.dp, iconSize = 16.dp),
-    Medium(minHeight = 48.dp, horizontalPadding = 16.dp, iconSize = 20.dp),
-    Large(minHeight = 56.dp, horizontalPadding = 24.dp, iconSize = 24.dp)
+    Small(minHeight = 40.dp, horizontalPadding = 14.dp, iconSize = 16.dp),
+    Medium(minHeight = 48.dp, horizontalPadding = 18.dp, iconSize = 20.dp),
+    Large(minHeight = 54.dp, horizontalPadding = 24.dp, iconSize = 22.dp)
 }
 
 /**
- * Standard Production Button for Ishaara.
- * Supports Primary, Secondary, Outlined, Text, and Danger variants with loading states.
+ * Standard Human-Centered Button for Ishaara.
+ * Simple, high-contrast, large touch target, natural sentence-case typography.
  */
 @Composable
 fun IshaaraButton(
@@ -202,6 +203,35 @@ fun IshaaraButton(
             }
         }
     }
+}
+
+/**
+ * Single Primary Screen Action:
+ * Full-width, 54dp high, positioned in the lower thumb zone.
+ * Follows the "ONE SCREEN = ONE PRIMARY ACTION" principle.
+ * Examples: "Request ride", "Start trip", "Go online".
+ */
+@Composable
+fun IshaaraPrimaryAction(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    loading: Boolean = false,
+    leadingIcon: (@Composable () -> Unit)? = null,
+    trailingIcon: (@Composable () -> Unit)? = null
+) {
+    IshaaraButton(
+        text = text,
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth(),
+        variant = IshaaraButtonVariant.Primary,
+        size = IshaaraButtonSize.Large,
+        enabled = enabled,
+        loading = loading,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon
+    )
 }
 
 @Composable

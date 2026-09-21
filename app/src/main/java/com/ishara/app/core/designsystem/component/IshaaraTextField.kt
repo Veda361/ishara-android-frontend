@@ -16,8 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
 /**
- * Standard Production Text Field for Ishaara.
- * Follows minimal, crisp editorial styling with thin borders and semantic states.
+ * Clean, accessible text input with natural sentence-case labels and clear feedback.
  */
 @Composable
 fun IshaaraTextField(
@@ -46,9 +45,9 @@ fun IshaaraTextField(
     Column(modifier = modifier) {
         if (label != null) {
             Text(
-                text = label.uppercase(),
-                style = typography.labelSmall,
-                color = if (isError) colors.danger else colors.foregroundMuted
+                text = label,
+                style = typography.titleSmall,
+                color = if (isError) colors.danger else colors.foreground
             )
             Spacer(modifier = Modifier.height(6.dp))
         }

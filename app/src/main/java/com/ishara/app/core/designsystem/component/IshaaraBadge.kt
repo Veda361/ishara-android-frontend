@@ -20,44 +20,61 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
-enum class IshaaraTransitStatus(val label: String) {
-    ONLINE("ONLINE"),
-    OFFLINE("OFFLINE"),
-    ACTIVE("ACTIVE"),
-    INACTIVE("INACTIVE"),
-    PENDING("PENDING"),
-    ACCEPTED("ACCEPTED"),
-    REJECTED("REJECTED"),
-    ARRIVING("ARRIVING"),
-    IN_PROGRESS("IN PROGRESS"),
-    COMPLETED("COMPLETED"),
-    CANCELLED("CANCELLED"),
-    EXPIRED("EXPIRED")
+/**
+ * Human-friendly Transit Statuses:
+ * Natural language states that students and drivers understand immediately.
+ */
+enum class IshaaraTransitStatus(val displayLabel: String) {
+    ONLINE("Online"),
+    OFFLINE("Offline"),
+    AVAILABLE("Available"),
+    COMING("Coming"),
+    ARRIVING("Arriving"),
+    ARRIVED("Driver arrived"),
+    BOARDING("Boarding"),
+    IN_PROGRESS("Trip started"),
+    ACTIVE("Active"),
+    INACTIVE("Inactive"),
+    PENDING("Waiting for driver"),
+    ACCEPTED("Confirmed"),
+    REJECTED("Declined"),
+    COMPLETED("Completed"),
+    CANCELLED("Cancelled"),
+    EXPIRED("Expired");
+
+    val label: String get() = displayLabel
 }
 
 /**
- * Technical Status Badge displaying state with both text and semantic indicator.
- * Complies with accessibility guidelines by never communicating status solely via color.
+ * Clean Status Chip displaying a color indicator dot and natural language label.
+ * Fully accessible — color is always paired with clear text.
  */
 @Composable
-fun IshaaraStatusBadge(
+fun IshaaraStatusChip(
     status: IshaaraTransitStatus,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    overrideLabel: String? = null
 ) {
     val colors = IshaaraTheme.colors
     val typography = IshaaraTheme.typography
     val shapes = IshaaraTheme.shapes
     val borders = IshaaraTheme.borders
 
+    val label = overrideLabel ?: status.displayLabel
+
     val (indicatorColor, backgroundColor, textColor) = when (status) {
         IshaaraTransitStatus.ONLINE,
+        IshaaraTransitStatus.AVAILABLE,
         IshaaraTransitStatus.ACTIVE,
         IshaaraTransitStatus.ACCEPTED,
-        IshaaraTransitStatus.COMPLETED -> Triple(colors.success, colors.successSubtle, colors.success)
+        IshaaraTransitStatus.COMPLETED -> Triple(colors.success, colors.successSubtle, colors.foreground)
 
+        IshaaraTransitStatus.COMING,
         IshaaraTransitStatus.ARRIVING,
+        IshaaraTransitStatus.ARRIVED,
+        IshaaraTransitStatus.BOARDING,
         IshaaraTransitStatus.IN_PROGRESS,
-        IshaaraTransitStatus.PENDING -> Triple(colors.accent, colors.accentSubtle, colors.warning)
+        IshaaraTransitStatus.PENDING -> Triple(colors.accent, colors.accentSubtle, colors.foreground)
 
         IshaaraTransitStatus.REJECTED,
         IshaaraTransitStatus.CANCELLED,
@@ -70,12 +87,12 @@ fun IshaaraStatusBadge(
     Box(
         modifier = modifier
             .semantics(mergeDescendants = true) {
-                contentDescription = "Status: ${status.label}"
+                contentDescription = "Status: $label"
             }
             .clip(shapes.xs)
             .background(backgroundColor)
-            .border(width = borders.hairline, color = indicatorColor.copy(alpha = 0.4f), shape = shapes.xs)
-            .padding(horizontal = 8.dp, vertical = 3.dp),
+            .border(width = borders.hairline, color = indicatorColor.copy(alpha = 0.35f), shape = shapes.xs)
+            .padding(horizontal = 8.dp, vertical = 4.dp),
         contentAlignment = Alignment.Center
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -87,8 +104,8 @@ fun IshaaraStatusBadge(
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = status.label,
-                style = typography.technicalSmall,
+                text = label,
+                style = typography.labelSmall,
                 color = textColor
             )
         }
@@ -96,7 +113,18 @@ fun IshaaraStatusBadge(
 }
 
 /**
- * Generic minimal technical badge (e.g. "ROUTE 24A", "SEATS: 12", "AC BUS").
+ * Backward-compatible alias for IshaaraStatusChip.
+ */
+@Composable
+fun IshaaraStatusBadge(
+    status: IshaaraTransitStatus,
+    modifier: Modifier = Modifier
+) {
+    IshaaraStatusChip(status = status, modifier = modifier)
+}
+
+/**
+ * Clean metadata badge (e.g., "Bus 24", "12 seats", "Express").
  */
 @Composable
 fun IshaaraBadge(
@@ -114,11 +142,11 @@ fun IshaaraBadge(
             .clip(shapes.xs)
             .background(containerColor)
             .border(width = borders.hairline, color = IshaaraTheme.colors.borderSubtle, shape = shapes.xs)
-            .padding(horizontal = 6.dp, vertical = 2.dp),
+            .padding(horizontal = 8.dp, vertical = 3.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = text.uppercase(),
+            text = text,
             style = typography.labelSmall,
             color = contentColor
         )

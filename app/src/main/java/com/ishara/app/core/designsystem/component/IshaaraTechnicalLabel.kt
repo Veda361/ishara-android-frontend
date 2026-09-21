@@ -1,5 +1,6 @@
 package com.ishara.app.core.designsystem.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,20 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
 /**
- * Signature Ishaara Technical Tag:
- * Renders bracketed technical instrument readouts such as:
- * [ SYSTEM LIVE ]
- * [ 01 ]
- * [ ROUTE STATUS ]
- * [ DRIVER STATUS ]
- * [ ETA 06 MIN ]
+ * Clean metadata label for secondary information such as "Live", "ETA 6 min", or route badges.
+ * Softened from harsh brackets into clean, modern transit tags.
  */
 @Composable
 fun IshaaraTechnicalLabel(
@@ -37,13 +30,10 @@ fun IshaaraTechnicalLabel(
     val typography = IshaaraTheme.typography
     val borders = IshaaraTheme.borders
     val shapes = IshaaraTheme.shapes
-    val style = if (small) typography.technicalSmall else typography.technical
+    val style = if (small) typography.labelSmall else typography.labelMedium
 
-    val formattedText = if (text.startsWith("[") && text.endsWith("]")) {
-        text.uppercase()
-    } else {
-        "[ ${text.trim().uppercase()} ]"
-    }
+    // Clean up text if it had legacy brackets
+    val cleanText = text.removePrefix("[").removeSuffix("]").trim()
 
     val boxModifier = if (bordered) {
         modifier
@@ -52,14 +42,14 @@ fun IshaaraTechnicalLabel(
                 color = color.copy(alpha = 0.4f),
                 shape = shapes.xs
             )
-            .padding(horizontal = 6.dp, vertical = 2.dp)
+            .padding(horizontal = 8.dp, vertical = 3.dp)
     } else {
         modifier
     }
 
     Box(modifier = boxModifier, contentAlignment = Alignment.Center) {
         Text(
-            text = formattedText,
+            text = cleanText,
             style = style,
             color = color
         )
@@ -67,7 +57,7 @@ fun IshaaraTechnicalLabel(
 }
 
 /**
- * High-legibility technical measurement readout (e.g. "₹25", "14 MIN", "32 SEATS").
+ * Natural, highly legible transit value readout (e.g. "₹20", "8 min away", "12 seats").
  */
 @Composable
 fun IshaaraTechnicalValue(
@@ -82,17 +72,14 @@ fun IshaaraTechnicalValue(
     Row(modifier = modifier, verticalAlignment = Alignment.Bottom) {
         Text(
             text = value,
-            style = typography.headlineMedium.copy(
-                fontFamily = FontFamily.Monospace,
-                letterSpacing = (-0.5).sp
-            ),
+            style = typography.headlineMedium,
             color = if (highlight) colors.accent else colors.foreground
         )
         if (unit != null) {
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = unit.uppercase(),
-                style = typography.labelSmall.copy(fontFamily = FontFamily.Monospace),
+                text = unit,
+                style = typography.bodySmall,
                 color = colors.foregroundMuted,
                 modifier = Modifier.padding(bottom = 2.dp)
             )

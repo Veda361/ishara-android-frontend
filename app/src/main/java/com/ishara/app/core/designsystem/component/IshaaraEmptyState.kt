@@ -16,15 +16,16 @@ import androidx.compose.ui.unit.dp
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
 /**
- * Minimalist, brand-aligned empty state.
+ * Human-centered, minimal empty state.
+ * Clear message with an immediate recovery action.
  */
 @Composable
 fun IshaaraEmptyState(
-    title: String,
-    message: String,
+    title: String = "No trips available",
+    message: String = "Try searching a different destination or route.",
     modifier: Modifier = Modifier,
-    systemTag: String = "STATUS // EMPTY",
-    actionLabel: String? = null,
+    actionLabel: String? = "Search again",
+    systemTag: String? = null, // Backward compatible optional tag
     onActionClick: (() -> Unit)? = null
 ) {
     val colors = IshaaraTheme.colors
@@ -40,10 +41,9 @@ fun IshaaraEmptyState(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            IshaaraTechnicalLabel(
-                text = systemTag,
-                color = colors.foregroundSubtle,
-                small = true
+            Text(
+                text = "🚌",
+                style = typography.displayLarge
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
@@ -65,7 +65,7 @@ fun IshaaraEmptyState(
                     text = actionLabel,
                     onClick = onActionClick,
                     variant = IshaaraButtonVariant.Secondary,
-                    size = IshaaraButtonSize.Small
+                    size = IshaaraButtonSize.Medium
                 )
             }
         }

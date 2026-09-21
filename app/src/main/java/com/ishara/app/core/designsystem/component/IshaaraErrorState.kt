@@ -16,14 +16,15 @@ import androidx.compose.ui.unit.dp
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
 /**
- * Reusable visual error state with recovery action (Retry, Settings, etc.).
+ * Human-friendly error state with immediate recovery action.
+ * Never displays raw HTTP codes or developer stack traces.
  */
 @Composable
 fun IshaaraErrorState(
-    title: String = "SIGNAL INTERRUPTED",
-    message: String = "Unable to reach transit servers. Please check your network connection.",
+    title: String = "Unable to connect",
+    message: String = "Please check your internet connection and try again.",
     modifier: Modifier = Modifier,
-    retryLabel: String = "RETRY CONNECTION",
+    retryLabel: String = "Try again",
     onRetryClick: () -> Unit
 ) {
     val colors = IshaaraTheme.colors
@@ -39,10 +40,9 @@ fun IshaaraErrorState(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            IshaaraTechnicalLabel(
-                text = "ERROR // PROTOCOL EXCEPTION",
-                color = colors.danger,
-                small = true
+            Text(
+                text = "⚠️",
+                style = typography.displayLarge
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
@@ -62,7 +62,7 @@ fun IshaaraErrorState(
             IshaaraButton(
                 text = retryLabel,
                 onClick = onRetryClick,
-                variant = IshaaraButtonVariant.Outlined,
+                variant = IshaaraButtonVariant.Primary,
                 size = IshaaraButtonSize.Medium
             )
         }

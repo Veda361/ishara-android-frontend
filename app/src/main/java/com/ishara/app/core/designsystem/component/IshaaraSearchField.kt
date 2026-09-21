@@ -3,7 +3,6 @@ package com.ishara.app.core.designsystem.component
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,14 +21,15 @@ import androidx.compose.ui.unit.dp
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
 /**
- * Specialized search input for station, route, and transit location discovery.
+ * Clean, natural search input for transit routes, stops, and destinations.
+ * Example placeholder: "Where are you going?"
  */
 @Composable
 fun IshaaraSearchField(
     query: String,
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    placeholder: String = "Search stops, routes, colleges...",
+    placeholder: String = "Where are you going?",
     loading: Boolean = false,
     enabled: Boolean = true,
     onClearClick: (() -> Unit)? = null,
@@ -54,8 +54,8 @@ fun IshaaraSearchField(
         },
         leadingIcon = {
             Text(
-                text = "⌕",
-                style = typography.headlineSmall,
+                text = "🔍",
+                style = typography.titleMedium,
                 color = colors.foregroundMuted
             )
         },
@@ -69,14 +69,14 @@ fun IshaaraSearchField(
             } else if (query.isNotEmpty() && onClearClick != null) {
                 Box(
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(36.dp)
                         .clickable(role = Role.Button) { onClearClick() }
                         .semantics { role = Role.Button },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "✕",
-                        style = typography.labelMedium,
+                        style = typography.titleSmall,
                         color = colors.foregroundMuted
                     )
                 }

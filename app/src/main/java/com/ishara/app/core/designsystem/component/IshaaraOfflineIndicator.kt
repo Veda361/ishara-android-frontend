@@ -21,12 +21,13 @@ import androidx.compose.ui.unit.dp
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
 /**
- * Subtle technical offline indicator banner.
+ * Subtle, non-intrusive offline indicator.
+ * Informs the user that cached data is being displayed without blocking interactions.
  */
 @Composable
 fun IshaaraOfflineIndicator(
     modifier: Modifier = Modifier,
-    message: String = "OFFLINE MODE — CACHED TELEMETRY"
+    message: String = "You're offline • Showing cached routes"
 ) {
     val colors = IshaaraTheme.colors
     val typography = IshaaraTheme.typography
@@ -37,7 +38,7 @@ fun IshaaraOfflineIndicator(
             .fillMaxWidth()
             .background(colors.surfaceSubtle)
             .border(width = borders.hairline, color = colors.borderSubtle)
-            .padding(horizontal = 16.dp, vertical = 6.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
             .semantics(mergeDescendants = true) {
                 contentDescription = message
             },
@@ -46,14 +47,14 @@ fun IshaaraOfflineIndicator(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
-                    .size(6.dp)
+                    .size(8.dp)
                     .clip(CircleShape)
                     .background(colors.warning)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = message,
-                style = typography.technicalSmall,
+                style = typography.bodySmall,
                 color = colors.foregroundMuted
             )
         }

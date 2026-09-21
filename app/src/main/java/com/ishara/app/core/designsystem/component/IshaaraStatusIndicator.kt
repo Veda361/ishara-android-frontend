@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
 /**
- * Minimal accessible inline status indicator with pulsating/solid dot and text label.
+ * Minimal accessible inline status indicator with dot and text label.
  */
 @Composable
 fun IshaaraStatusIndicator(
@@ -31,11 +31,15 @@ fun IshaaraStatusIndicator(
 
     val dotColor = when (status) {
         IshaaraTransitStatus.ONLINE,
+        IshaaraTransitStatus.AVAILABLE,
         IshaaraTransitStatus.ACTIVE,
         IshaaraTransitStatus.ACCEPTED,
         IshaaraTransitStatus.COMPLETED -> colors.success
 
+        IshaaraTransitStatus.COMING,
         IshaaraTransitStatus.ARRIVING,
+        IshaaraTransitStatus.ARRIVED,
+        IshaaraTransitStatus.BOARDING,
         IshaaraTransitStatus.IN_PROGRESS,
         IshaaraTransitStatus.PENDING -> colors.accent
 
@@ -49,7 +53,7 @@ fun IshaaraStatusIndicator(
 
     Row(
         modifier = modifier.semantics(mergeDescendants = true) {
-            contentDescription = "Status: ${status.label}"
+            contentDescription = "Status: ${status.displayLabel}"
         },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -62,8 +66,8 @@ fun IshaaraStatusIndicator(
         if (showLabel) {
             Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = status.label,
-                style = typography.technicalSmall,
+                text = status.displayLabel,
+                style = typography.labelSmall,
                 color = colors.foregroundMuted
             )
         }

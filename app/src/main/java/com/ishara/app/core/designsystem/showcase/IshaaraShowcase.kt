@@ -21,32 +21,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ishara.app.core.designsystem.component.IshaaraAvatar
 import com.ishara.app.core.designsystem.component.IshaaraBadge
 import com.ishara.app.core.designsystem.component.IshaaraButton
 import com.ishara.app.core.designsystem.component.IshaaraButtonSize
 import com.ishara.app.core.designsystem.component.IshaaraButtonVariant
 import com.ishara.app.core.designsystem.component.IshaaraCard
 import com.ishara.app.core.designsystem.component.IshaaraDivider
-import com.ishara.app.core.designsystem.component.IshaaraEmptyState
-import com.ishara.app.core.designsystem.component.IshaaraErrorState
-import com.ishara.app.core.designsystem.component.IshaaraIconButton
+import com.ishara.app.core.designsystem.component.IshaaraDriverCard
 import com.ishara.app.core.designsystem.component.IshaaraOfflineIndicator
-import com.ishara.app.core.designsystem.component.IshaaraOutlinedCard
+import com.ishara.app.core.designsystem.component.IshaaraPrimaryAction
 import com.ishara.app.core.designsystem.component.IshaaraSearchField
 import com.ishara.app.core.designsystem.component.IshaaraSectionHeader
 import com.ishara.app.core.designsystem.component.IshaaraSkeleton
-import com.ishara.app.core.designsystem.component.IshaaraStatusBadge
+import com.ishara.app.core.designsystem.component.IshaaraStatusChip
 import com.ishara.app.core.designsystem.component.IshaaraStatusIndicator
-import com.ishara.app.core.designsystem.component.IshaaraTechnicalLabel
-import com.ishara.app.core.designsystem.component.IshaaraTechnicalValue
 import com.ishara.app.core.designsystem.component.IshaaraTextField
 import com.ishara.app.core.designsystem.component.IshaaraTopBar
 import com.ishara.app.core.designsystem.component.IshaaraTransitStatus
+import com.ishara.app.core.designsystem.component.IshaaraTripCard
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
 /**
- * Development-only Showcase demonstrating all Ishaara Design System tokens and primitives.
+ * Human-Centered Component Showcase demonstrating real-world Indian mobility UI patterns.
  */
 @Composable
 fun IshaaraDesignSystemShowcase(
@@ -56,8 +52,8 @@ fun IshaaraDesignSystemShowcase(
     val typography = IshaaraTheme.typography
     val spacing = IshaaraTheme.spacing
 
-    var sampleInputText by remember { mutableStateOf("") }
     var sampleSearchText by remember { mutableStateOf("") }
+    var sampleInputText by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -66,8 +62,8 @@ fun IshaaraDesignSystemShowcase(
             .verticalScroll(rememberScrollState())
     ) {
         IshaaraTopBar(
-            title = "Design System Showcase",
-            systemTag = "TELEMETRY // SHOWCASE V1.0"
+            title = "Design system showcase",
+            subtitle = "Human-centered mobility foundation"
         )
 
         IshaaraOfflineIndicator()
@@ -75,157 +71,148 @@ fun IshaaraDesignSystemShowcase(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(spacing.md),
-            verticalArrangement = Arrangement.spacedBy(spacing.lg)
+                .padding(spacing.lg),
+            verticalArrangement = Arrangement.spacedBy(spacing.xl)
         ) {
-            // Section 01: Technical Labels & Values
-            IshaaraSectionHeader(number = "01", title = "Instrumentation & Technical Labels")
+            // Section 1: Trip & Route Cards (Student Experience)
+            IshaaraSectionHeader(title = "Available trips", number = "2 found")
+            IshaaraTripCard(
+                route = "Bus 24 • Express",
+                originToDestination = "Jhansi → Orchha",
+                etaText = "8 min away",
+                fareText = "₹20",
+                seatsAvailable = 12,
+                onRequestClick = {},
+                status = IshaaraTransitStatus.COMING
+            )
+
+            IshaaraTripCard(
+                route = "Bus 12 • Campus Shuttle",
+                originToDestination = "Railway Station → Campus Gate",
+                etaText = "3 min away",
+                fareText = "₹15",
+                seatsAvailable = 3,
+                onRequestClick = {},
+                status = IshaaraTransitStatus.ARRIVING
+            )
+
+            // Section 2: Driver Information Card
+            IshaaraSectionHeader(title = "Assigned driver")
+            IshaaraDriverCard(
+                driverName = "Rajesh Sharma",
+                rating = 4.8,
+                vehicleDetails = "Tata Starbus • MH 12 AB 9999",
+                onCallClick = {},
+                status = IshaaraTransitStatus.ONLINE
+            )
+
+            // Section 3: Status & Natural Language
+            IshaaraSectionHeader(title = "Status language")
             IshaaraCard {
                 Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(spacing.sm),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IshaaraTechnicalLabel(text = "SYSTEM LIVE", bordered = true)
-                        IshaaraTechnicalLabel(text = "ROUTE 01", bordered = true)
-                        IshaaraTechnicalLabel(text = "ETA 06 MIN", bordered = true, color = colors.accent)
-                    }
-                    IshaaraDivider()
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        IshaaraTechnicalValue(value = "₹25", unit = "base fare")
-                        IshaaraTechnicalValue(value = "08", unit = "stops left", highlight = true)
-                        IshaaraTechnicalValue(value = "34", unit = "seats open")
+                        IshaaraStatusChip(status = IshaaraTransitStatus.ONLINE)
+                        IshaaraStatusChip(status = IshaaraTransitStatus.ARRIVING)
+                        IshaaraStatusChip(status = IshaaraTransitStatus.IN_PROGRESS)
                     }
-                }
-            }
-
-            // Section 02: Status System
-            IshaaraSectionHeader(number = "02", title = "Status System")
-            IshaaraCard {
-                Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(spacing.sm)) {
-                        IshaaraStatusBadge(status = IshaaraTransitStatus.ONLINE)
-                        IshaaraStatusBadge(status = IshaaraTransitStatus.ARRIVING)
-                        IshaaraStatusBadge(status = IshaaraTransitStatus.IN_PROGRESS)
-                    }
-                    Row(horizontalArrangement = Arrangement.spacedBy(spacing.sm)) {
-                        IshaaraStatusBadge(status = IshaaraTransitStatus.OFFLINE)
-                        IshaaraStatusBadge(status = IshaaraTransitStatus.CANCELLED)
-                        IshaaraBadge(text = "VOLVO AC 9400")
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(spacing.sm),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        IshaaraStatusChip(status = IshaaraTransitStatus.PENDING)
+                        IshaaraStatusChip(status = IshaaraTransitStatus.OFFLINE)
+                        IshaaraBadge(text = "AC Bus")
                     }
                     IshaaraDivider()
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(spacing.md),
+                        horizontalArrangement = Arrangement.spacedBy(spacing.lg),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         IshaaraStatusIndicator(status = IshaaraTransitStatus.ONLINE)
-                        IshaaraStatusIndicator(status = IshaaraTransitStatus.ARRIVING)
+                        IshaaraStatusIndicator(status = IshaaraTransitStatus.IN_PROGRESS)
                         IshaaraStatusIndicator(status = IshaaraTransitStatus.OFFLINE)
                     }
                 }
             }
 
-            // Section 03: Button Hierarchy
-            IshaaraSectionHeader(number = "03", title = "Button System")
+            // Section 4: Primary & Secondary Actions
+            IshaaraSectionHeader(title = "Action buttons")
             Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
+                // One primary action (54dp large for driver/student thumb reach)
+                IshaaraPrimaryAction(
+                    text = "Request ride",
+                    onClick = {}
+                )
+
                 IshaaraButton(
-                    text = "CONFIRM TRIP ROUTE",
+                    text = "Start trip",
                     onClick = {},
                     variant = IshaaraButtonVariant.Primary,
+                    size = IshaaraButtonSize.Large,
                     modifier = Modifier.fillMaxWidth()
                 )
+
                 IshaaraButton(
-                    text = "SECONDARY ACTION",
-                    onClick = {},
-                    variant = IshaaraButtonVariant.Secondary,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                IshaaraButton(
-                    text = "OUTLINED BOARDING ACTION",
+                    text = "View route stops",
                     onClick = {},
                     variant = IshaaraButtonVariant.Outlined,
+                    size = IshaaraButtonSize.Medium,
                     modifier = Modifier.fillMaxWidth()
                 )
+
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(spacing.sm),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     IshaaraButton(
-                        text = "EMERGENCY SOS",
+                        text = "Emergency SOS",
                         onClick = {},
                         variant = IshaaraButtonVariant.Danger,
-                        size = IshaaraButtonSize.Small,
+                        size = IshaaraButtonSize.Medium,
                         modifier = Modifier.weight(1f)
                     )
                     IshaaraButton(
-                        text = "SYNCING...",
+                        text = "Cancel",
                         onClick = {},
-                        loading = true,
-                        size = IshaaraButtonSize.Small,
+                        variant = IshaaraButtonVariant.Text,
+                        size = IshaaraButtonSize.Medium,
                         modifier = Modifier.weight(1f)
                     )
                 }
             }
 
-            // Section 04: Form & Search Inputs
-            IshaaraSectionHeader(number = "04", title = "Input & Transit Search")
-            Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
+            // Section 5: Search & Input
+            IshaaraSectionHeader(title = "Search & inputs")
+            Column(verticalArrangement = Arrangement.spacedBy(spacing.md)) {
                 IshaaraSearchField(
                     query = sampleSearchText,
                     onQueryChange = { sampleSearchText = it },
+                    placeholder = "Where are you going?",
                     onClearClick = { sampleSearchText = "" }
                 )
+
                 IshaaraTextField(
                     value = sampleInputText,
                     onValueChange = { sampleInputText = it },
-                    label = "Pickup Landmark",
-                    placeholder = "e.g. Campus Gate No. 2"
-                )
-                IshaaraTextField(
-                    value = "MH 12 AB 9999",
-                    onValueChange = {},
-                    label = "Vehicle Registration",
-                    readOnly = true,
-                    helperText = "Verified Fleet Bus"
+                    label = "Pickup stop",
+                    placeholder = "e.g. Library Gate"
                 )
             }
 
-            // Section 05: Cards, Skeletons & Avatars
-            IshaaraSectionHeader(number = "05", title = "Cards & Telemetry Elements")
-            IshaaraOutlinedCard {
+            // Section 6: Loading Placeholder
+            IshaaraSectionHeader(title = "Loading placeholder")
+            IshaaraCard {
                 Column(verticalArrangement = Arrangement.spacedBy(spacing.sm)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(spacing.sm),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            IshaaraAvatar(name = "Rajesh Sharma", status = IshaaraTransitStatus.ONLINE)
-                            Column {
-                                Text(text = "Rajesh Sharma", style = typography.titleMedium, color = colors.foreground)
-                                Text(text = "Driver • 8 yrs exp", style = typography.bodySmall, color = colors.foregroundMuted)
-                            }
-                        }
-                        IshaaraIconButton(
-                            onClick = {},
-                            contentDescription = "Contact driver"
-                        ) {
-                            Text(text = "📞", style = typography.titleMedium)
-                        }
-                    }
-                    IshaaraDivider()
-                    IshaaraSkeleton(height = 14.dp)
-                    IshaaraSkeleton(height = 14.dp)
+                    IshaaraSkeleton(height = 20.dp)
+                    IshaaraSkeleton(height = 16.dp)
+                    IshaaraSkeleton(height = 40.dp)
                 }
             }
 
-            Spacer(modifier = Modifier.height(spacing.xxl))
+            Spacer(modifier = Modifier.height(spacing.xxxl))
         }
     }
 }

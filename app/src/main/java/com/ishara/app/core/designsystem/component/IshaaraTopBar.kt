@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -24,13 +23,14 @@ import androidx.compose.ui.unit.dp
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
 /**
- * Editorial Technical Top Bar for Ishaara.
+ * Clean, human-centered top app bar for Ishaara.
  */
 @Composable
 fun IshaaraTopBar(
     title: String,
     modifier: Modifier = Modifier,
-    systemTag: String? = null,
+    subtitle: String? = null,
+    systemTag: String? = null, // Backward compatible optional meta tag
     onBackClick: (() -> Unit)? = null,
     actions: (@Composable () -> Unit)? = null
 ) {
@@ -49,15 +49,6 @@ fun IshaaraTopBar(
             )
             .padding(horizontal = IshaaraTheme.spacing.md, vertical = IshaaraTheme.spacing.sm)
     ) {
-        if (systemTag != null) {
-            IshaaraTechnicalLabel(
-                text = systemTag,
-                color = colors.foregroundSubtle,
-                small = true,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
-        }
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -65,7 +56,7 @@ fun IshaaraTopBar(
             if (onBackClick != null) {
                 Box(
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(44.dp)
                         .clickable(role = Role.Button) { onBackClick() }
                         .semantics { role = Role.Button },
                     contentAlignment = Alignment.Center
@@ -76,15 +67,29 @@ fun IshaaraTopBar(
                         color = colors.foreground
                     )
                 }
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(4.dp))
             }
 
-            Text(
-                text = title,
-                style = typography.titleLarge,
-                color = colors.foreground,
-                modifier = Modifier.weight(1f)
-            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = title,
+                    style = typography.titleLarge,
+                    color = colors.foreground
+                )
+                if (subtitle != null) {
+                    Text(
+                        text = subtitle,
+                        style = typography.bodySmall,
+                        color = colors.foregroundMuted
+                    )
+                } else if (systemTag != null) {
+                    Text(
+                        text = systemTag,
+                        style = typography.labelSmall,
+                        color = colors.foregroundMuted
+                    )
+                }
+            }
 
             if (actions != null) {
                 actions()
@@ -94,13 +99,14 @@ fun IshaaraTopBar(
 }
 
 /**
- * Technical Section Header (e.g. "01 // ACTIVE TRIPS", "02 // RECENT BOARDINGS").
+ * Natural Section Header (e.g. "Available trips", "Upcoming stops", "Recent rides").
+ * Clean typography and hierarchy without confusing technical prefixes.
  */
 @Composable
 fun IshaaraSectionHeader(
-    number: String,
     title: String,
     modifier: Modifier = Modifier,
+    number: String? = null, // Optional badge/count, e.g. "4 available"
     action: (@Composable () -> Unit)? = null
 ) {
     val colors = IshaaraTheme.colors
@@ -113,16 +119,14 @@ fun IshaaraSectionHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "$number //",
-            style = typography.technicalSmall,
-            color = colors.accent
-        )
-        Spacer(modifier = Modifier.width(6.dp))
-        Text(
-            text = title.uppercase(),
-            style = typography.labelLarge,
+            text = title,
+            style = typography.headlineSmall,
             color = colors.foreground
         )
+        if (number != null) {
+            Spacer(modifier = Modifier.width(8.dp))
+            IshaaraBadge(text = number)
+        }
         Spacer(modifier = Modifier.weight(1f))
         if (action != null) {
             action()

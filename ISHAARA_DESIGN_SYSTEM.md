@@ -1,234 +1,206 @@
-# Ishaara Design System
+# Ishaara Design System — Human-Centered Transit Foundation
 
-**Document Version**: 1.0.0  
+**Document Version**: 2.0.0  
 **Status**: ACTIVE / PRODUCTION DESIGN SYSTEM  
 **Platform**: Android (Jetpack Compose & Material 3)  
 **Target Roles**: User / Student & Driver / Conductor  
 
 ---
 
-## 1. Brand Principles
+## 1. Core Philosophy: Human-Centered Mobility
 
-The Ishaara visual design system is crafted around the concept of **Editorial Transportation Technology**:
-- **Editorial Precision**: Generous negative space, high typographic hierarchy, clean horizontal dividers, and asymmetric layout balance.
-- **Indian Urban Mobility**: Rooted in real transit environments — clean bus signage, route boards, and high-visibility status indicators.
-- **Technical & Instrumentation**: Systematic brackets (`[ SYSTEM LIVE ]`, `[ ROUTE 01 ]`, `[ ETA 06 MIN ]`), monospace metadata, and telemetry readouts.
-- **Minimalism & Confidence**: Crisp light and dark modes relying on thin borders, structured surfaces, and restrained accent usage rather than excessive gradients, glow, or drop shadows.
-- **Youthful & Gen-Z**: Sharp editorial layout, responsive micro-interactions, and visual authenticity rather than childish cartoon iconography.
+Ishaara is a **real-world public transportation and campus mobility product**.
+
+The interface is built around one uncompromising design rule:
+> **"Simple enough for a first-time user.  
+> Fast enough for a driver.  
+> Clear enough for a student.  
+> Professional enough for a mobility company."**
+
+### Visual Quality Bar
+- **Clarity over Novelty**: If a decorative element competes with an action, it is eliminated.
+- **Natural Human Language**: Technical acronyms and cyber/hacker-style brackets belong in debug logs, never in the UI.
+- **One Screen = One Primary Action**: The primary action (e.g. "Request ride", "Start trip", "Go online") is visually obvious and placed in the lower thumb zone (54dp high).
+- **Indian Transit Context**: Built for students checking bus arrival times while walking in sunlight, and drivers glancing at their phones while stopped at a transit bay.
 
 ---
 
-## 2. Color Tokens
+## 2. Human-Centered UX & Typography
 
-The color system centers around a high-contrast monochrome foundation with a single restrained transit accent:
+### Primary Font Family
+- **Font Family**: Clean Modern Sans-Serif (`FontFamily.Default`, resolving to Inter / Roboto / Google Sans on Android).
+- **Rationale**: 
+  - Maximum legibility at small sizes and high ambient glare.
+  - Zero cognitive overhead compared to decorative, condensed, or monospace fonts.
+  - Full support for Android system dynamic font scaling without line truncation.
 
-### Palette Structure
-| Token | Light Value | Dark Value | Usage |
+### Restrained Typography Scale
+| Style | Size / Line Height | Weight | Usage |
 | :--- | :--- | :--- | :--- |
-| `background` | `#FFFFFF` | `#0D0F12` | Screen canvas background |
-| `surface` | `#F9FAFB` | `#14171D` | Primary card and container surfaces |
-| `surfaceElevated` | `#FFFFFF` | `#1A1E26` | Elevated cards, dialogs, bottom sheets |
-| `surfaceSubtle` | `#F3F4F6` | `#101318` | Inset blocks, badges, disabled fields |
-| `foreground` | `#111827` | `#F9FAFB` | Primary headers and high-emphasis body |
-| `foregroundMuted`| `#4B5563` | `#9CA3AF` | Supporting descriptions and secondary labels |
-| `foregroundSubtle`| `#9CA3AF`| `#6B7280` | Placeholders, inactive icons, timestamps |
-| `border` | `#D1D5DB` | `#262C38` | Standard component and card borders |
-| `borderSubtle` | `#E5E7EB` | `#1C212B` | Hairline dividers and inset dividers |
-| `borderStrong` | `#111827` | `#F9FAFB` | Focused inputs and high-contrast buttons |
-| `accent` | `#F59E0B` | `#FBBF24` | Transit Amber / Marigold (CTAs, ETAs, active routes) |
-| `accentForeground`| `#000000`| `#000000` | High contrast on accent surfaces |
-| `success` | `#10B981` | `#10B981` | Online, active trip, confirmed boarding |
-| `warning` | `#D97706` | `#FBBF24` | Approaching stop, pending request, low seats |
-| `danger` | `#EF4444` | `#EF4444` | Emergency SOS, rejected, cancelled ride |
-| `info` | `#3B82F6` | `#3B82F6` | Informational announcements and route hints |
+| `displayLarge` | `32sp` / `40sp` | Bold | Hero statements (e.g., "Getting to college") |
+| `displaySmall` | `28sp` / `36sp` | Bold | Secondary hero headers |
+| `headlineLarge`| `24sp` / `32sp` | SemiBold | Screen titles (e.g., "Available buses", "Active trip") |
+| `headlineMedium`| `20sp` / `28sp` | SemiBold | Route titles (e.g., "Jhansi → Orchha") |
+| `headlineSmall`| `18sp` / `24sp` | SemiBold | Card titles and section headers |
+| `titleLarge` | `16sp` / `24sp` | SemiBold | Component headers, dialog titles |
+| `titleMedium` | `15sp` / `22sp` | Medium | Prominent list item titles |
+| `titleSmall` | `14sp` / `20sp` | Medium | Field labels, input descriptors |
+| `bodyLarge` | `16sp` / `24sp` | Regular | Primary body copy, search inputs |
+| `bodyMedium` | `14sp` / `20sp` | Regular | Secondary descriptions, ETA and fare info |
+| `bodySmall` | `13sp` / `18sp` | Regular | Captions, timestamps, helper notes |
+| `labelLarge` | `15sp` / `20sp` | SemiBold | Buttons (Large & Medium) |
+| `labelMedium` | `13sp` / `18sp` | Medium | Small buttons, chip titles |
+| `labelSmall` | `12sp` / `16sp` | Medium | Seat counts, status tags |
+
+### Font Weights
+Only four standard weights are utilized across the entire product:
+- `Regular` (400)
+- `Medium` (500)
+- `SemiBold` (600)
+- `Bold` (700)
+
+*Excluded*: Thin, ExtraLight, Black, and condensed decorative weights.
+
+### Sentence-Case Rules (No Forced All-Caps)
+- **BAD**: `REQUEST RIDE`, `START TRIP`, `SEARCH LOCATION`, `CONFIRM BOARDING`
+- **GOOD**: `Request ride`, `Start trip`, `Search location`, `Confirm boarding`
+- All button labels, input headers, route summaries, and system messages use **natural sentence case**.
+- Uppercase is restricted strictly to very short abbreviations where conventional (e.g., `AC`, `ETA`, `SOS`, `UPI`).
 
 ---
 
-## 3. Typography
+## 3. UX Writing & Natural Language Rules
 
-The typography scale utilizes standard Android proportional fonts for editorial copy and system monospace for technical instrumentation:
+Every label, message, and prompt must sound like a real human:
 
-```kotlin
-// Technical instrumentation styles
-IshaaraTheme.typography.technical       // 12sp Monospace, 1.0sp tracking (e.g. [ SYSTEM LIVE ])
-IshaaraTheme.typography.technicalSmall  // 10sp Monospace, 1.2sp tracking (e.g. [ 01 ])
-
-// Editorial headlines & titles
-IshaaraTheme.typography.displayLarge    // 36sp Bold, -0.5sp tracking
-IshaaraTheme.typography.displaySmall    // 28sp Bold, -0.25sp tracking
-IshaaraTheme.typography.headlineLarge   // 24sp SemiBold
-IshaaraTheme.typography.headlineMedium  // 20sp SemiBold
-IshaaraTheme.typography.titleLarge      // 16sp SemiBold
-IshaaraTheme.typography.bodyLarge       // 16sp Regular, 24sp line height
-IshaaraTheme.typography.labelLarge      // 14sp SemiBold (Buttons)
-```
+| Instead of (Technical / Cyber) | Use (Human-Centered Mobility) |
+| :--- | :--- |
+| `[ SYSTEM LIVE ]` | `Live` |
+| `[ ETA 06 MIN ]` | `6 min away` |
+| `RIDE REQUEST PENDING` | `Waiting for driver` |
+| `DRIVER ARRIVAL STATE` | `Driver arrived` |
+| `TRIP_EXECUTION_ACTIVE` | `Trip started` |
+| `SELECT_ORIGIN_COORDINATE` | `Choose pickup point` |
+| `DESTINATION INPUT` | `Where are you going?` |
+| `SEATS_REMAINING: 12` | `12 seats available` |
+| `PAYMENT_GATEWAY_SUCCESS` | `Payment complete` |
+| `HTTP 409 CONFLICT` | `Ride request could not be completed. Please try again.` |
 
 ---
 
-## 4. Spacing
+## 4. Color System
 
-Spacing is governed by an 8-point structural grid with 4-point micro-adjustments:
+A restrained, high-contrast palette prioritizing readability over decoration:
 
-| Token | Dimension | Intended Usage |
-| :--- | :--- | :--- |
-| `xxs` | `2.dp` | Hairline padding and dot indicator margins |
-| `xs` | `4.dp` | Inline icon-to-text spacing, input label gaps |
-| `sm` | `8.dp` | Inner badge padding, button icon gaps, chip spacing |
-| `md` | `12.dp` | Standard card internal padding, list item vertical gaps |
-| `lg` | `16.dp` | Screen edge horizontal margins, section padding |
-| `xl` | `24.dp` | Distance between major screen sections |
-| `xxl` | `32.dp` | Form group spacing, bottom sheet top clearance |
-| `xxxl` | `48.dp` | Empty state vertical spacing, hero top padding |
-
----
-
-## 5. Shapes
-
-Ishaara maintains clean geometric surfaces with restrained corner rounding:
-- `none`: `0.dp` (Full-width banners, dividers)
-- `xs`: `4.dp` (Badges, technical tags, input fields)
-- `sm`: `8.dp` (Standard cards, interactive buttons, modal containers)
-- `md`: `12.dp` (Floating cards, interactive trip selectors)
-- `lg`: `16.dp` (Bottom sheet top corners, dialog cards)
-- `pill`: `999.dp` (Status dots, circular avatar clips)
+### Semantic Tokens
+- **Background**: Crisp White (`#FFFFFF` in light mode, `#0D0F12` in dark mode).
+- **Surface**: Off-White (`#F9FAFB` in light, `#14171D` in dark).
+- **Surface Elevated**: Clean White Card (`#FFFFFF` in light, `#1A1E26` in dark).
+- **Foreground (Primary Text)**: Deep Charcoal (`#111827` in light, `#F9FAFB` in dark).
+- **Foreground Muted**: Slate Gray (`#4B5563` in light, `#9CA3AF` in dark).
+- **Borders**: Thin, structured lines (`#D1D5DB` light / `#262C38` dark).
+- **Transit Accent**: Amber / Electric Marigold (`#F59E0B` light / `#FBBF24` dark) — used sparingly for primary focal points, live routes, and active ETAs.
+- **Status Semantics**:
+  - **Success**: Emerald Green (`#10B981`) → Online, Confirmed, Completed.
+  - **Warning**: Transit Amber (`#D97706` / `#F59E0B`) → Arriving, Low seats, Waiting.
+  - **Danger**: Crimson Red (`#EF4444`) → Emergency SOS, Declined, Cancelled.
+  - **Info**: Cobalt Blue (`#3B82F6`) → Route notes, transit notices.
 
 ---
 
-## 6. Borders
+## 5. Spacing & Rhythm
 
-Thin borders define Ishaara's clean architectural structure:
-- `hairline`: `0.5.dp` (Dividers, technical tags)
-- `thin`: `1.dp` (Standard card borders, text field borders)
-- `default`: `1.dp` (Standard button outlines)
-- `thick`: `2.dp` (Active focus rings, high-contrast selection)
-
----
-
-## 7. Elevation
-
-Elevation is used with extreme restraint; depth is achieved primarily through surface tone contrast and 1dp borders:
-- `none`: `0.dp` (Standard cards, inline lists)
-- `low`: `2.dp` (Floating search bar, active interactive cards)
-- `medium`: `4.dp` (Sticky bottom bars, navigation bars)
-- `high`: `8.dp` (Modal bottom sheets, emergency SOS dialogs)
+Built on an 8-point structural grid with 4-point micro-adjustments:
+- `xxs`: `2.dp` (hairline offsets)
+- `xs`: `4.dp` (label-to-input gap, icon-to-text gap)
+- `sm`: `8.dp` (chip spacing, badge padding, intra-card gaps)
+- `md`: `12.dp` (standard card interior padding)
+- `lg`: `16.dp` (screen margins, card horizontal padding)
+- `xl`: `24.dp` (distance between screen sections)
+- `xxl`: `32.dp` (form group gaps)
+- `xxxl`: `48.dp` (empty state and hero clearances)
 
 ---
 
-## 8. Components
+## 6. Button Hierarchy & Thumb Zone
 
-### 1. `IshaaraButton`
-- **Variants**: `Primary` (high-contrast black/white), `Secondary` (subtle gray), `Outlined` (thin border), `Text` (minimal), `Danger` (crimson SOS/cancel).
-- **Sizes**: `Small` (36dp), `Medium` (48dp), `Large` (56dp).
-- **States**: Default, Pressed, Disabled, Loading (with inline circular progress).
-- **Accessibility**: Minimum 48dp touch target enforced on medium/large buttons.
+### Sizing Scale
+- **`Large` (54dp height)**: Primary action buttons and `IshaaraPrimaryAction` — thumb-friendly for drivers and passengers on the move.
+- **`Medium` (48dp height)**: Standard actionable buttons (meets WCAG minimum touch target).
+- **`Small` (40dp height)**: Secondary compact utility actions (e.g. Call, Details).
 
-### 2. `IshaaraTextField`
-- **Features**: Label, placeholder, helperText, errorText, leadingIcon, trailingIcon.
-- **States**: Default, Focused, Error, Disabled, ReadOnly.
-- **Visuals**: Thin border, high-contrast text, clear uppercase technical labels.
-
-### 3. `IshaaraSearchField`
-- **Features**: Dedicated transit discovery input with search glyph, clear button (`✕`), and dynamic loading spinner.
-
-### 4. `IshaaraCard` & `IshaaraOutlinedCard`
-- **Features**: Structured containers with 1dp border, zero drop shadow, and 8-12dp padding.
-
-### 5. `IshaaraTechnicalLabel` & `IshaaraTechnicalValue`
-- **Features**: Specialized instrument tags (`[ SYSTEM LIVE ]`, `[ ETA 06 MIN ]`) with monospace letter-spacing.
-
-### 6. `IshaaraTopBar` & `IshaaraSectionHeader`
-- **Features**: Editorial headers with system tag, back arrow, title, and section index numbers (`01 // ACTIVE TRIPS`).
-
-### 7. `IshaaraBadge` & `IshaaraStatusBadge`
-- **Features**: Compact status indicators with text and colored dot.
-
-### 8. `IshaaraStatusIndicator`
-- **Features**: Standalone accessible dot indicator + text representation.
-
-### 9. `IshaaraIconButton`
-- **Features**: Touch target 48dp min, clean container, accessible description.
-
-### 10. `IshaaraDivider`
-- **Features**: Hairline 0.5dp divider line.
-
-### 11. `IshaaraSkeleton`
-- **Features**: Pulsating placeholder with reduced motion support.
-
-### 12. `IshaaraLoadingState`, `IshaaraEmptyState`, `IshaaraErrorState`, `IshaaraOfflineIndicator`
-- **Features**: Complete suite of operational and recovery screens.
-
-### 13. `IshaaraAvatar`
-- **Features**: User/driver initials or photo avatar with status dot.
-
-### 14. `IshaaraDialog` & `IshaaraBottomSheet`
-- **Features**: Technical modal sheets and dialogs with thin borders.
+### Button Variants
+1. **Primary**: Solid dark fill (`colors.foreground`), white text, high contrast.
+2. **Secondary**: Neutral surface fill (`colors.surfaceSubtle`), dark text.
+3. **Outlined**: 1dp border, transparent background.
+4. **Text**: Clean text button for secondary dismissals ("Cancel", "Skip").
+5. **Danger**: Solid crimson fill (`colors.danger`) for Emergency SOS or ride cancellation.
 
 ---
 
-## 9. Status System
+## 7. Status System
 
-Transit state is never communicated through color alone:
+Status is **never communicated by color alone**:
 
-| Status | Dot Color | Label | Accessibility Content Description |
+| Status | Color | Visual Representation | Natural Text Label |
 | :--- | :--- | :--- | :--- |
-| `ONLINE` | Emerald Green | `ONLINE` | "Status: ONLINE" |
-| `OFFLINE` | Slate Gray | `OFFLINE` | "Status: OFFLINE" |
-| `ACTIVE` | Emerald Green | `ACTIVE` | "Status: ACTIVE" |
-| `ARRIVING` | Transit Amber | `ARRIVING` | "Status: ARRIVING" |
-| `IN_PROGRESS` | Transit Amber | `IN PROGRESS`| "Status: IN PROGRESS" |
-| `COMPLETED` | Emerald Green | `COMPLETED` | "Status: COMPLETED" |
-| `CANCELLED` | Crimson Red | `CANCELLED` | "Status: CANCELLED" |
-| `REJECTED` | Crimson Red | `REJECTED` | "Status: REJECTED" |
+| `ONLINE` | Emerald Green | Dot + Text | `Online` |
+| `OFFLINE` | Slate Gray | Dot + Text | `Offline` |
+| `AVAILABLE` | Emerald Green | Dot + Text | `Available` |
+| `COMING` | Transit Amber | Dot + Text | `Coming` |
+| `ARRIVING` | Transit Amber | Dot + Text | `Arriving` |
+| `ARRIVED` | Transit Amber | Dot + Text | `Driver arrived` |
+| `BOARDING` | Transit Amber | Dot + Text | `Boarding` |
+| `IN_PROGRESS`| Transit Amber | Dot + Text | `Trip started` |
+| `COMPLETED` | Emerald Green | Dot + Text | `Completed` |
+| `CANCELLED` | Crimson Red | Dot + Text | `Cancelled` |
+| `REJECTED` | Crimson Red | Dot + Text | `Declined` |
+| `PENDING` | Transit Amber | Dot + Text | `Waiting for driver` |
 
 ---
 
-## 10. Motion
+## 8. Role-Specific UX Principles
 
-Motion communicates state change, feedback, and navigation:
-- `durationFast`: 150ms (Button press, checkbox toggle, dropdown reveal)
-- `durationNormal`: 300ms (Card expansions, sheet dismissals, search reveal)
-- `durationSlow`: 500ms (Major layout transitions)
-- **Reduced Motion**: When system reduced motion is active, `resolveDuration()` collapses animation durations to `0ms` to avoid triggering motion sensitivity.
+### Student / Passenger Experience
+Answers the 6 core questions immediately without visual clutter:
+1. **Where am I?** → Auto-detected pickup location shown prominently.
+2. **Where can I go?** → Natural search bar: "Where are you going?".
+3. **Which buses are available?** → Scannable transit cards with Route, Direction, ETA, and Fare.
+4. **When will it arrive?** → High-legibility ETA ("8 min away").
+5. **How much will it cost?** → Clear fare ("₹20").
+6. **What do I do next?** → Obvious primary button ("Request ride").
 
----
-
-## 11. Accessibility (WCAG 2.1 AA)
-
-- **Touch Targets**: All interactive elements (Buttons, IconButtons, Chips) have at least 48x48dp touch areas.
-- **Color Independence**: Status badges include both text labels and dot indicators.
-- **Contrast**: Text foreground colors meet at least 4.5:1 contrast against surface backgrounds.
-- **Semantic Roles**: Proper Compose semantics (`Role.Button`, `contentDescription`) are attached to all actionable elements.
-
----
-
-## 12. Iconography
-
-- **Style**: Minimalist outline icons with 1.5dp to 2.0dp stroke weight.
-- **Optical Sizes**: 16dp (badges), 20dp (buttons), 24dp (app bars).
-- **Consistency**: All icons provide explicit `contentDescription` or are marked as decorative.
+### Driver / Conductor Experience
+Engineered for safety, speed, and glanceability:
+- **Zero Distraction**: Large touch buttons (54dp) in the bottom thumb zone.
+- **Glanceable Status**: Immediate awareness of current state ("You're online", "Trip ready", "Trip started").
+- **No Complex Forms**: Single-tap actions for "Start trip", "Driver arrived", "End trip".
+- **Passenger Count at a Glance**: Clear readout of onboard vs open seats.
+- **Quick SOS**: Immediate one-tap Emergency SOS.
 
 ---
 
-## 13. Asset Rules & Bus Visual Guidelines
+## 9. Accessibility (WCAG 2.1 AA)
 
-1. **Photorealistic & Editorial**: Bus imagery in `assets/images/` and `res/drawable/` represents authentic Indian transit buses.
-2. **Usage Context**: Bus visuals are reserved exclusively for brand hero moments, onboarding storytelling, empty states, and marketing banners.
-3. **No Live GPS Replacement**: Static photographic assets MUST NOT be used as moving map pins on live GPS map tracking views. Live vehicles will use clean vector markers.
-4. **No Baked Text**: Imagery does not bake English or regional text into graphic assets, preserving future localization.
+- **Touch Targets**: Minimum 48x48dp enforced on all interactive elements.
+- **Text Scaling**: Scalable `sp` typography that preserves layout hierarchy under Android system font magnification.
+- **Contrast**: Text meets minimum 4.5:1 contrast against surface backgrounds.
+- **TalkBack & Semantics**: Explicit `contentDescription` and `Role.Button` attached to all actions.
+- **Reduced Motion**: All animations automatically collapse when reduced motion is enabled in system accessibility settings.
 
 ---
 
-## 14. Do / Don't Examples
+## 10. Do / Don't Examples
 
 ### DO
-- ✅ Use `IshaaraTechnicalLabel` for system status (`[ DRIVER ONLINE ]`, `[ ETA 12 MIN ]`).
-- ✅ Use `IshaaraTheme.spacing` and `IshaaraTheme.colors` instead of raw `dp` or `Color(0x...)`.
-- ✅ Prefer 1dp borders and subtle surface tone shifts over drop shadows.
-- ✅ Combine status dots with explicit textual status labels.
+- ✅ Use natural sentence case: `"Request ride"`, `"Start trip"`, `"8 min away"`.
+- ✅ Follow "ONE SCREEN = ONE PRIMARY ACTION" using `IshaaraPrimaryAction`.
+- ✅ Show clear recovery actions on error and empty states (`"Try again"`, `"Search again"`).
+- ✅ Combine status dots with explicit human text (`● Online`, `● Driver arrived`).
 
 ### DON'T
-- ❌ Do NOT use neon gradients or glowing cyberpunk cards.
-- ❌ Do NOT make every button or card a full-rounded pill.
-- ❌ Do NOT put business logic, API calls, or repositories inside UI components.
-- ❌ Do NOT communicate status with only colored dots (e.g. green circle without text).
-- ❌ Do NOT use cartoonish toy-bus graphics.
+- ❌ Do NOT use futuristic, cyberpunk, or hacker-style brackets (`[ SYSTEM LIVE ]`).
+- ❌ Do NOT force ALL-CAPS on normal buttons or headings (`REQUEST RIDE`).
+- ❌ Do NOT expose raw exceptions or status codes (`HTTP 409`, `RIDE_CONFLICT`).
+- ❌ Do NOT pack dozens of tiny cards into a single screen.
+- ❌ Do NOT communicate status with colored dots alone.
