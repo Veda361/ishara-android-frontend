@@ -6,13 +6,13 @@ plugins {
 android {
     namespace = "com.ishara.app"
     compileSdk {
-        version = release(37)
+        version = release(36)
     }
 
     defaultConfig {
         applicationId = "com.ishara.app"
-        minSdk = 24
-        targetSdk = 37
+        minSdk = 23
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.navigation:navigation-compose:2.9.4")
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
