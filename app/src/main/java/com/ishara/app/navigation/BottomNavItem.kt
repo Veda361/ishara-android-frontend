@@ -36,4 +36,14 @@ sealed class BottomNavItem(
         "Profile",
         Icons.Default.Person
     )
-} 
+
+    companion object {
+
+        val PassengerBottomItems = listOf(
+            Home,
+            Discover,
+            Trips,
+            Profile
+        )
+    }
+}

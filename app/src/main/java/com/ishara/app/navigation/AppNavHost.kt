@@ -8,7 +8,8 @@ import androidx.navigation.navigation
 import com.ishara.app.ui.screen.auth.LoginScreen
 import com.ishara.app.ui.screen.auth.RoleSelectionScreen
 import com.ishara.app.ui.screen.passenger.discover.DiscoverScreen
-import com.ishara.app.ui.screen.passenger.home.HomeScreen
+import com.ishara.app.ui.scaffold.PassengerScaffold
+import com.ishara.app.ui.scaffold.DriverScaffold
 import com.ishara.app.ui.screen.passenger.profile.ProfileScreen
 import com.ishara.app.ui.screen.splash.SplashScreen
 import com.ishara.app.ui.screen.passenger.trips.TripsScreen
@@ -32,7 +33,24 @@ fun AppNavHost(
         ) {
 
             composable(Destination.Splash) {
-                SplashScreen()
+
+                SplashScreen(
+
+                    onFinished = {
+
+                        navController.navigate(Graph.AUTH) {
+
+                            popUpTo(Graph.ROOT) {
+                                inclusive = true
+                            }
+
+                            launchSingleTop = true
+                        }
+
+                    }
+
+                )
+
             }
         }
 
@@ -45,11 +63,54 @@ fun AppNavHost(
         ) {
 
             composable(Destination.Login) {
-                LoginScreen()
+
+                LoginScreen(
+
+                    onLoginClick = {
+
+                        navController.navigate(Destination.RoleSelection) {
+
+                            launchSingleTop = true
+
+                        }
+
+                    }
+
+                )
+
             }
 
             composable(Destination.RoleSelection) {
-                RoleSelectionScreen()
+
+                RoleSelectionScreen(
+
+                    onPassengerSelected = {
+
+                        navController.navigate(Graph.PASSENGER) {
+
+                            popUpTo(Graph.AUTH) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+
+                        }
+
+                    },
+
+                    onDriverSelected = {
+
+                        navController.navigate(Graph.DRIVER) {
+
+                            popUpTo(Graph.AUTH) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
+                        }
+
+                    }
+
+                )
+
             }
         }
 
@@ -62,20 +123,9 @@ fun AppNavHost(
         ) {
 
             composable(Destination.Home) {
-                HomeScreen()
+                PassengerScaffold(navController)
             }
 
-            composable(Destination.Discover) {
-                DiscoverScreen()
-            }
-
-            composable(Destination.Trips) {
-                TripsScreen()
-            }
-
-            composable(Destination.Profile) {
-                ProfileScreen()
-            }
         }
 
         /*
@@ -86,7 +136,10 @@ fun AppNavHost(
             route = Graph.DRIVER
         ) {
 
-            // Placeholder until we create driver screens.
+            composable(Destination.Dashboard) {
+                DriverScaffold(navController)
+            }
+
         }
     }
 }
