@@ -1,77 +1,64 @@
 package com.ishara.app.data.remote.datasource
 
-import com.ishara.app.core.network.HttpRequest
 import com.ishara.app.core.network.HttpMethod
+import com.ishara.app.core.network.HttpRequest
 import com.ishara.app.core.network.IshaaraHttpClient
 import com.ishara.app.core.network.NetworkConfig
 import com.ishara.app.core.result.IshaaraResult
-import com.ishara.app.data.remote.dto.AuthSessionResponseDto
-import com.ishara.app.data.remote.dto.UserDto
+import com.ishara.app.data.remote.dto.*
+import kotlinx.serialization.json.Json
 
 interface AuthRemoteDataSource {
-    suspend fun signInWithGoogle(idToken: String): IshaaraResult<AuthSessionResponseDto>
-    suspend fun completeOnboarding(role: String, token: String): IshaaraResult<UserDto>
-    suspend fun getCurrentUser(token: String): IshaaraResult<UserDto>
+    suspend fun signInWithSocial(provider: String, idToken: String): IshaaraResult<AuthSessionResponseDto>
+    suspend fun sendEmailOtp(email: String): IshaaraResult<Unit>
+    suspend fun signInWithEmailOtp(email: String, otp: String): IshaaraResult<AuthSessionResponseDto>
     suspend fun signOut(token: String): IshaaraResult<Unit>
+    suspend fun getSession(token: String): IshaaraResult<SessionResponseDto>
+    suspend fun completeOnboarding(token: String, request: OnboardingRequestDto): IshaaraResult<UserDto>
+    suspend fun getCurrentUser(token: String): IshaaraResult<ApiResponse<UserDto>>
+    suspend fun updateProfile(token: String, request: UpdateUserRequestDto): IshaaraResult<UserDto>
 }
 
 class AuthRemoteDataSourceImpl(
     private val httpClient: IshaaraHttpClient,
-    private val networkConfig: NetworkConfig
+    private val networkConfig: NetworkConfig,
+    private val json: Json = Json { ignoreUnknownKeys = true }
 ) : AuthRemoteDataSource {
 
-    override suspend fun signInWithGoogle(idToken: String): IshaaraResult<AuthSessionResponseDto> {
+    override suspend fun signInWithSocial(provider: String, idToken: String): IshaaraResult<AuthSessionResponseDto> {
+        val body = json.encodeToString(GoogleSignInRequestDto.serializer(), GoogleSignInRequestDto(provider, idToken))
         val request = HttpRequest(
             url = "${networkConfig.authBaseUrl}/sign-in/social",
             method = HttpMethod.POST,
             headers = mapOf("Content-Type" to "application/json"),
-            body = "{\"provider\":\"google\",\"idToken\":\"$idToken\"}"
+            body = body
         )
         return httpClient.execute(request).map { response ->
-            // In a complete parser, this deserializes response.body into AuthSessionResponseDto
-            // Standard safe fallback parsing:
-            AuthSessionResponseDto(
-                token = extractJsonField(response.body, "token") ?: "",
-                userId = extractJsonField(response.body, "userId") ?: "",
-                role = extractJsonField(response.body, "role") ?: "USER"
-            )
+            json.decodeFromString<AuthSessionResponseDto>(response.body)
         }
     }
 
-    override suspend fun completeOnboarding(role: String, token: String): IshaaraResult<UserDto> {
+    override suspend fun sendEmailOtp(email: String): IshaaraResult<Unit> {
+        val body = json.encodeToString(EmailOtpSendRequestDto.serializer(), EmailOtpSendRequestDto(email))
         val request = HttpRequest(
-            url = "${networkConfig.fullApiBaseUrl}/users/me/onboarding",
+            url = "${networkConfig.authBaseUrl}/email-otp/send-verification-otp",
             method = HttpMethod.POST,
-            headers = mapOf(
-                "Content-Type" to "application/json",
-                "Authorization" to "Bearer $token"
-            ),
-            body = "{\"role\":\"$role\"}"
+            headers = mapOf("Content-Type" to "application/json"),
+            body = body
         )
-        return httpClient.execute(request).map { response ->
-            UserDto(
-                id = extractJsonField(response.body, "id") ?: "",
-                name = extractJsonField(response.body, "name") ?: "User",
-                role = role,
-                isOnboarded = true
-            )
-        }
+        return httpClient.execute(request).map { }
     }
 
-    override suspend fun getCurrentUser(token: String): IshaaraResult<UserDto> {
+    override suspend fun signInWithEmailOtp(email: String, otp: String): IshaaraResult<AuthSessionResponseDto> {
+        val body = json.encodeToString(EmailOtpSignInRequestDto.serializer(), EmailOtpSignInRequestDto(email, otp))
         val request = HttpRequest(
-            url = "${networkConfig.fullApiBaseUrl}/users/me",
-            method = HttpMethod.GET,
-            headers = mapOf("Authorization" to "Bearer $token")
+            url = "${networkConfig.authBaseUrl}/sign-in/email-otp",
+            method = HttpMethod.POST,
+            headers = mapOf("Content-Type" to "application/json"),
+            body = body
         )
         return httpClient.execute(request).map { response ->
-            UserDto(
-                id = extractJsonField(response.body, "id") ?: "",
-                name = extractJsonField(response.body, "name") ?: "User",
-                email = extractJsonField(response.body, "email"),
-                role = extractJsonField(response.body, "role") ?: "USER",
-                isOnboarded = true
-            )
+            json.decodeFromString<AuthSessionResponseDto>(response.body)
         }
     }
 
@@ -84,8 +71,57 @@ class AuthRemoteDataSourceImpl(
         return httpClient.execute(request).map { }
     }
 
-    private fun extractJsonField(json: String, field: String): String? {
-        val pattern = Regex("\"$field\"\\s*:\\s*\"([^\"]+)\"")
-        return pattern.find(json)?.groupValues?.get(1)
+    override suspend fun getSession(token: String): IshaaraResult<SessionResponseDto> {
+        val request = HttpRequest(
+            url = "${networkConfig.authBaseUrl}/get-session",
+            method = HttpMethod.GET,
+            headers = mapOf("Authorization" to "Bearer $token")
+        )
+        return httpClient.execute(request).map { response ->
+            json.decodeFromString<SessionResponseDto>(response.body)
+        }
+    }
+
+    override suspend fun completeOnboarding(token: String, request: OnboardingRequestDto): IshaaraResult<UserDto> {
+        val body = json.encodeToString(OnboardingRequestDto.serializer(), request)
+        val httpRequest = HttpRequest(
+            url = "${networkConfig.fullApiBaseUrl}/users/me/onboarding",
+            method = HttpMethod.POST,
+            headers = mapOf(
+                "Authorization" to "Bearer $token",
+                "Content-Type" to "application/json"
+            ),
+            body = body
+        )
+        return httpClient.execute(httpRequest).map { response ->
+            json.decodeFromString<UserDto>(response.body)
+        }
+    }
+
+    override suspend fun getCurrentUser(token: String): IshaaraResult<ApiResponse<UserDto>> {
+        val request = HttpRequest(
+            url = "${networkConfig.fullApiBaseUrl}/users/me",
+            method = HttpMethod.GET,
+            headers = mapOf("Authorization" to "Bearer $token")
+        )
+        return httpClient.execute(request).map { response ->
+            json.decodeFromString<ApiResponse<UserDto>>(response.body)
+        }
+    }
+
+    override suspend fun updateProfile(token: String, request: UpdateUserRequestDto): IshaaraResult<UserDto> {
+        val body = json.encodeToString(UpdateUserRequestDto.serializer(), request)
+        val httpRequest = HttpRequest(
+            url = "${networkConfig.fullApiBaseUrl}/users/me",
+            method = HttpMethod.PATCH,
+            headers = mapOf(
+                "Authorization" to "Bearer $token",
+                "Content-Type" to "application/json"
+            ),
+            body = body
+        )
+        return httpClient.execute(httpRequest).map { response ->
+            json.decodeFromString<UserDto>(response.body)
+        }
     }
 }

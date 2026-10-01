@@ -6,7 +6,6 @@ import com.ishara.app.data.local.datasource.SessionLocalDataSourceImpl
 import com.ishara.app.data.remote.datasource.AuthRemoteDataSource
 import com.ishara.app.data.remote.dto.AuthSessionResponseDto
 import com.ishara.app.data.remote.dto.UserDto
-import com.ishara.app.data.repository.AuthRepositoryImpl
 import com.ishara.app.domain.model.UserRole
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
