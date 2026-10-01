@@ -21,6 +21,7 @@ fun LoginScreen(
     onLoginClick: () -> Unit
 ) {
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -28,7 +29,6 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Text(
             text = "🚍",
             style = MaterialTheme.typography.displayMedium

@@ -13,6 +13,14 @@ import com.ishara.app.ui.scaffold.DriverScaffold
 import com.ishara.app.ui.screen.passenger.profile.ProfileScreen
 import com.ishara.app.ui.screen.splash.SplashScreen
 import com.ishara.app.ui.screen.passenger.trips.TripsScreen
+import com.ishara.app.ui.screen.driver.active_trip.ActiveTripScreen
+import com.ishara.app.ui.screen.driver.dashboard.DashboardScreen
+import com.ishara.app.ui.screen.driver.earnings.EarningsScreen
+import com.ishara.app.ui.screen.driver.profile.DriverProfileScreen
+import com.ishara.app.ui.screen.driver.requests.RequestsScreen
+import com.ishara.app.ui.screen.driver.settings.DriverSettingsScreen
+import com.ishara.app.ui.screen.driver.vehicle.VehicleScreen
+import com.ishara.app.ui.screen.driver.voice.VoiceAssistantScreen
 
 @Composable
 fun AppNavHost(
@@ -129,8 +137,8 @@ fun AppNavHost(
         }
 
         /*
-         * Driver Graph
-         */
+  * Driver Graph
+  */
         navigation(
             startDestination = Destination.Dashboard,
             route = Graph.DRIVER
@@ -140,6 +148,33 @@ fun AppNavHost(
                 DriverScaffold(navController)
             }
 
+            composable(Destination.Requests) {
+                RequestsScreen()
+            }
+
+            composable(Destination.ActiveTrip) {
+                ActiveTripScreen()
+            }
+
+            composable(Destination.Earnings) {
+                EarningsScreen()
+            }
+
+            composable(Destination.Vehicle) {
+                VehicleScreen()
+            }
+
+            composable(Destination.DriverProfile) {
+                DriverProfileScreen()
+            }
+
+            composable(Destination.DriverSettings) {
+                DriverSettingsScreen()
+            }
+
+            composable(Destination.VoiceAssistant) {
+                VoiceAssistantScreen()
+            }
         }
     }
 }

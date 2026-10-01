@@ -13,15 +13,4 @@ data class User(
     val isOnboarded: Boolean = false
 )
 
-/**
- * Domain model representing an active authentication session.
- */
-data class AuthSession(
-    val token: String,
-    val userId: String,
-    val role: UserRole,
-    val expiresAtMillis: Long? = null
-) {
-    val isExpired: Boolean
-        get() = expiresAtMillis != null && System.currentTimeMillis() >= expiresAtMillis
-}
+

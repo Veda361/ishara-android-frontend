@@ -54,6 +54,12 @@ sealed class IshaaraError(
         override val cause: Throwable? = null
     ) : IshaaraError(message, cause)
 
+    /** Error for features not yet implemented on the backend */
+    data class NotImplemented(
+        override val message: String = "This feature is currently under development.",
+        override val cause: Throwable? = null
+    ) : IshaaraError(message, cause)
+
     /** Unexpected or unhandled exceptions */
     data class Unknown(
         override val message: String = "An unexpected error occurred.",

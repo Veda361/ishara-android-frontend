@@ -16,14 +16,37 @@ interface AuthRepository {
     suspend fun signInWithGoogle(idToken: String): IshaaraResult<AuthSession>
 
     /**
-     * Assigns initial role during onboarding (USER or DRIVER_CONDUCTOR).
+     * Sends OTP to email for sign-in.
      */
-    suspend fun completeOnboarding(role: UserRole): IshaaraResult<User>
+    suspend fun sendEmailOtp(email: String): IshaaraResult<Unit>
+
+    /**
+     * Signs in using email and OTP.
+     */
+    suspend fun signInWithEmailOtp(email: String, otp: String): IshaaraResult<AuthSession>
+
+    /**
+     * Assigns initial role and profile details during onboarding.
+     */
+    suspend fun completeOnboarding(
+        role: UserRole,
+        name: String,
+        phoneNumber: String
+    ): IshaaraResult<User>
 
     /**
      * Retrieves the current user's profile (/api/v1/users/me).
      */
     suspend fun getCurrentUser(): IshaaraResult<User>
+
+    /**
+     * Updates user profile details.
+     */
+    suspend fun updateProfile(
+        name: String? = null,
+        phoneNumber: String? = null,
+        image: String? = null
+    ): IshaaraResult<User>
 
     /**
      * Observes the active session reactively.

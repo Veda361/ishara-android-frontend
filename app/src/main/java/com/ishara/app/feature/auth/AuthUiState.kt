@@ -10,5 +10,5 @@ data class AuthUiState(
     val role: UserRole? = null
 ) {
     val isAuthenticated: Boolean
-        get() = session != null && !session.isExpired
+        get() = session != null
 }

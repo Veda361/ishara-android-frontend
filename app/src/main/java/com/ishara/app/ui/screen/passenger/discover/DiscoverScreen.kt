@@ -37,5 +37,10 @@ fun DiscoverScreen() {
 
 @Composable
 fun PopularRoutesCard() {
-    TODO("Not yet implemented")
+    androidx.compose.material3.Card {
+        Text(
+            text = "Popular routes coming soon",
+            modifier = Modifier.padding(16.dp)
+        )
+    }
 }

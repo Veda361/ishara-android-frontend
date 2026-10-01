@@ -2,9 +2,11 @@ package com.ishara.app.data.repository
 
 import com.ishara.app.core.result.IshaaraError
 import com.ishara.app.core.result.IshaaraResult
-import com.ishara.app.data.local.datasource.SessionLocalDataSource
-import com.ishara.app.data.mapper.AuthMapper
+import com.ishara.app.core.storage.SessionStore
 import com.ishara.app.data.remote.datasource.AuthRemoteDataSource
+import com.ishara.app.data.remote.dto.OnboardingRequestDto
+import com.ishara.app.data.remote.dto.UpdateUserRequestDto
+import com.ishara.app.data.remote.dto.UserDto
 import com.ishara.app.domain.model.AuthSession
 import com.ishara.app.domain.model.User
 import com.ishara.app.domain.model.UserRole
@@ -13,48 +15,99 @@ import kotlinx.coroutines.flow.Flow
 
 class AuthRepositoryImpl(
     private val remoteDataSource: AuthRemoteDataSource,
-    private val localDataSource: SessionLocalDataSource
+    private val sessionStore: SessionStore
 ) : AuthRepository {
 
     override suspend fun signInWithGoogle(idToken: String): IshaaraResult<AuthSession> {
-        return remoteDataSource.signInWithGoogle(idToken).map { dto ->
-            val session = AuthMapper.toDomain(dto)
-            localDataSource.saveSession(session)
+        return remoteDataSource.signInWithSocial("google", idToken).map { response ->
+            val session = AuthSession(
+                token = response.token,
+                userId = response.user.id,
+                email = response.user.email,
+                role = UserRole.fromString(response.user.role),
+                name = response.user.name
+            )
+            sessionStore.saveSession(session)
             session
         }
     }
 
-    override suspend fun completeOnboarding(role: UserRole): IshaaraResult<User> {
-        val session = localDataSource.getSession()
-            ?: return IshaaraResult.failure(IshaaraError.Authentication(message = "No active session."))
+    override suspend fun sendEmailOtp(email: String): IshaaraResult<Unit> {
+        return remoteDataSource.sendEmailOtp(email)
+    }
 
-        return remoteDataSource.completeOnboarding(role.name, session.token).map { dto ->
-            // Update session role in local store
-            val updatedSession = session.copy(role = role)
-            localDataSource.saveSession(updatedSession)
-            AuthMapper.toDomain(dto)
+    override suspend fun signInWithEmailOtp(email: String, otp: String): IshaaraResult<AuthSession> {
+        return remoteDataSource.signInWithEmailOtp(email, otp).map { response ->
+            val session = AuthSession(
+                token = response.token,
+                userId = response.user.id,
+                email = response.user.email,
+                role = UserRole.fromString(response.user.role),
+                name = response.user.name
+            )
+            sessionStore.saveSession(session)
+            session
         }
+    }
+
+    override suspend fun completeOnboarding(
+        role: UserRole,
+        name: String,
+        phoneNumber: String
+    ): IshaaraResult<User> {
+        val token = sessionStore.getSession()?.token
+            ?: return IshaaraResult.failure(IshaaraError.Authentication())
+
+        val request = OnboardingRequestDto(
+            role = role.name,
+            name = name,
+            phoneNumber = phoneNumber
+        )
+
+        return remoteDataSource.completeOnboarding(token, request).map { it.toDomain() }
     }
 
     override suspend fun getCurrentUser(): IshaaraResult<User> {
-        val session = localDataSource.getSession()
-            ?: return IshaaraResult.failure(IshaaraError.Authentication(message = "No active session."))
+        val token = sessionStore.getSession()?.token
+            ?: return IshaaraResult.failure(IshaaraError.Authentication())
 
-        return remoteDataSource.getCurrentUser(session.token).map { dto ->
-            AuthMapper.toDomain(dto)
+        return remoteDataSource.getCurrentUser(token).map { response ->
+            response.data?.toDomain() ?: throw IllegalStateException("Empty user data")
         }
+    }
+
+    override suspend fun updateProfile(
+        name: String?,
+        phoneNumber: String?,
+        image: String?
+    ): IshaaraResult<User> {
+        val token = sessionStore.getSession()?.token
+            ?: return IshaaraResult.failure(IshaaraError.Authentication())
+
+        val request = UpdateUserRequestDto(name, phoneNumber, image)
+        return remoteDataSource.updateProfile(token, request).map { it.toDomain() }
     }
 
     override fun observeSession(): Flow<AuthSession?> {
-        return localDataSource.observeSession()
+        return sessionStore.observeSession()
     }
 
     override suspend fun signOut(): IshaaraResult<Unit> {
-        val session = localDataSource.getSession()
-        if (session != null) {
-            remoteDataSource.signOut(session.token)
+        val token = sessionStore.getSession()?.token
+        if (token != null) {
+            remoteDataSource.signOut(token)
         }
-        localDataSource.clearSession()
+        sessionStore.clearSession()
         return IshaaraResult.success(Unit)
     }
+
+    private fun UserDto.toDomain(): User = User(
+        id = id,
+        name = name,
+        email = email,
+        phoneNumber = phoneNumber,
+        role = UserRole.fromString(role),
+        profileImageUrl = image,
+        isOnboarded = isOnboarded
+    )
 }
