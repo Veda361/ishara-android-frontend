@@ -9,7 +9,18 @@ import com.ishara.app.domain.model.Trip
  */
 interface TripRepository {
     /**
-     * Finds active matching trips using origin and destination coordinates.
+     * Executes trip discovery using the strict verified DiscoveryQuery.
+     */
+    suspend fun discoverTrips(query: com.ishara.app.domain.model.DiscoveryQuery): IshaaraResult<com.ishara.app.domain.model.DiscoveryResult>
+
+    /**
+     * Retrieves sanitized public passenger trip details by its identifier.
+     * GET /api/v1/trips/:tripId
+     */
+    suspend fun getPassengerTripDetails(tripId: String): IshaaraResult<com.ishara.app.domain.model.PassengerTripDetails>
+
+    /**
+     * Legacy helper for finding trips.
      */
     suspend fun discoverTrips(
         pickup: GeoJsonCoordinate,

@@ -15,6 +15,11 @@ sealed class IshaaraResult<out T> {
         is Failure -> null
     }
 
+    fun errorOrNull(): IshaaraError? = when (this) {
+        is Success -> null
+        is Failure -> error
+    }
+
     fun getOrDefault(defaultValue: @UnsafeVariance T): T = when (this) {
         is Success -> data
         is Failure -> defaultValue

@@ -87,7 +87,9 @@ data class IshaaraColors(
     val dangerSubtle: Color,
     val info: Color,
     val onInfo: Color,
-    val infoSubtle: Color
+    val infoSubtle: Color,
+    val primary: Color = accent,
+    val primarySubtle: Color = accentSubtle
 )
 
 fun lightIshaaraColors(): IshaaraColors = IshaaraColors(

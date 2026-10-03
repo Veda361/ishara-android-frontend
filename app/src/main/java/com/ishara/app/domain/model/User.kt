@@ -8,9 +8,10 @@ data class User(
     val name: String,
     val email: String? = null,
     val phoneNumber: String? = null,
-    val role: UserRole,
+    val role: UserRole? = null,
     val profileImageUrl: String? = null,
-    val isOnboarded: Boolean = false
+    val isOnboarded: Boolean = false,
+    val onboardingCompleted: Boolean = isOnboarded
 )
 
 /**
@@ -19,7 +20,7 @@ data class User(
 data class AuthSession(
     val token: String,
     val userId: String,
-    val role: UserRole,
+    val role: UserRole? = null,
     val expiresAtMillis: Long? = null
 ) {
     val isExpired: Boolean

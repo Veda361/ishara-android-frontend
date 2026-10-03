@@ -1,3 +1,175 @@
 <resources>
-    <string name="app_name">ishara</string>
+    <string name="app_name">Ishaara</string>
+
+    <!-- Student Home Greetings -->
+    <string name="greeting_morning">Good morning</string>
+    <string name="greeting_afternoon">Good afternoon</string>
+    <string name="greeting_evening">Good evening</string>
+    <string name="student_home_title">Where are you going?</string>
+    <string name="search_destination_placeholder">Where are you going?</string>
+
+    <!-- Location & Permissions -->
+    <string name="current_location_label">Current location</string>
+    <string name="location_loading">Finding your location…</string>
+    <string name="location_permission_title">Use your location to find nearby trips</string>
+    <string name="location_permission_subtitle">This helps show available buses and pickup points near you.</string>
+    <string name="location_permission_allow">Allow location</string>
+    <string name="location_permission_not_now">Not now</string>
+    <string name="location_permission_denied">Location permission is turned off</string>
+    <string name="location_permission_enable">Turn on location</string>
+    <string name="location_unavailable">Location unavailable</string>
+
+    <!-- Destinations & Trip Discovery -->
+    <string name="recent_destinations_title">Recent</string>
+    <string name="recent_destinations_clear">Clear</string>
+    <string name="going_to_label">Going to</string>
+    <string name="from_label">From</string>
+    <string name="find_trips_button">Find trips</string>
+
+    <!-- Active Ride -->
+    <string name="active_ride_title">Your ride</string>
+    <string name="view_ride_button">View ride</string>
+
+    <!-- Search States -->
+    <string name="search_empty_title">No places found</string>
+    <string name="search_empty_subtitle">Try a different name or area.</string>
+    <string name="search_again_button">Search again</string>
+    <string name="search_error_title">Couldn\'t load nearby locations</string>
+    <string name="retry_button">Try again</string>
+    <string name="close_search">Close search</string>
+    <string name="offline_banner_text">You\'re offline. Showing cached information.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_trips">Trips</string>
+    <string name="nav_activity">Activity</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Discovery -->
+    <string name="discovery_title">Available Trips</string>
+    <string name="discovery_empty_title">No trips found</string>
+    <string name="discovery_empty_subtitle">No active transport is currently running along this route. Try changing your destination.</string>
+    <string name="discovery_error_title">Couldn\'t find trips</string>
+    <string name="discovery_error_subtitle">Check your connection and try again.</string>
+    <string name="discovery_continue_button">Continue to ride request</string>
+    <string name="discovery_change_button">Change destination</string>
+
+    <!-- Ride Request -->
+    <string name="ride_request_review_title">Review Ride</string>
+    <string name="ride_request_cta">Request ride</string>
+    <string name="ride_request_submitting">Requesting…</string>
+    <string name="ride_request_success_title">Ride Request Sent</string>
+    <string name="ride_request_success_pending">Your request is currently pending driver confirmation.</string>
+    <string name="ride_request_done">Back to home</string>
+
+    <!-- Phase 11: Live Ride Tracking -->
+    <string name="tracking_title">Your ride</string>
+    <string name="tracking_recenter">Recenter map</string>
+    <string name="tracking_back">Back</string>
+    <string name="tracking_pickup_label">Pickup</string>
+    <string name="tracking_dropoff_label">Dropoff</string>
+    <string name="tracking_bus_marker">Bus current location</string>
+    <string name="tracking_eta_prefix">Arriving in</string>
+    <string name="tracking_distance_remaining">remaining</string>
+    <string name="tracking_status_created">Driver assigned</string>
+    <string name="tracking_status_driver_arriving">Driver is on the way</string>
+    <string name="tracking_status_picked_up">You\'ve been picked up</string>
+    <string name="tracking_status_in_progress">Trip in progress</string>
+    <string name="tracking_status_completed">Trip completed</string>
+    <string name="tracking_status_cancelled">Trip cancelled</string>
+    <string name="tracking_status_unknown">Ride in progress</string>
+    <string name="tracking_state_fresh">Live</string>
+    <string name="tracking_state_stale">Location delayed</string>
+    <string name="tracking_state_off_route">Off route</string>
+    <string name="tracking_state_unavailable">Location unavailable</string>
+    <string name="tracking_degraded_notice">Connection lost. Showing last known location.</string>
+    <string name="tracking_error_title">Ride information unavailable</string>
+    <string name="tracking_error_unauthorized">You are not authorized to track this ride.</string>
+    <string name="tracking_done_button">Done</string>
+    <string name="tracking_refresh_button">Refresh</string>
+
+    <!-- Phase 12: Hands-Free Voice Trip Creation -->
+    <string name="voice_entry_button">Use voice</string>
+    <string name="voice_entry_content_description">Create a trip using your voice</string>
+    <string name="voice_title">Voice trip creation</string>
+    <string name="voice_permission_rationale_title">Microphone access needed</string>
+    <string name="voice_permission_rationale_subtitle">Allow microphone access to create a trip using your voice.</string>
+    <string name="voice_permission_allow">Allow microphone</string>
+    <string name="voice_permission_denied_settings">Microphone permission was denied. Please enable it in device settings to use voice trip creation.</string>
+    <string name="voice_permission_open_settings">Open settings</string>
+    <string name="voice_listening_title">Listening…</string>
+    <string name="voice_listening_hint">Say where you want to go. For example:\n\"Take me from Jhansi Railway Station to SRGI College\"</string>
+    <string name="voice_stop_listening">Done speaking</string>
+    <string name="voice_processing_title">Interpreting trip…</string>
+    <string name="voice_processing_subtitle">Resolving route details with server…</string>
+    <string name="voice_review_title">Is this correct?</string>
+    <string name="voice_review_subtitle">Check the origin and destination before finding trips.</string>
+    <string name="voice_from_label">From</string>
+    <string name="voice_to_label">To</string>
+    <string name="voice_transcript_label">You said</string>
+    <string name="voice_confirm_button">Confirm &amp; find trips</string>
+    <string name="voice_edit_button">Edit</string>
+    <string name="voice_edit_origin">Edit origin</string>
+    <string name="voice_edit_destination">Edit destination</string>
+    <string name="voice_cancel_button">Cancel</string>
+    <string name="voice_try_again_button">Try again</string>
+    <string name="voice_search_manually_button">Search manually</string>
+    <string name="voice_error_no_speech">No speech detected. Please tap the microphone and speak clearly.</string>
+    <string name="voice_error_unclear">Could not determine trip origin and destination. Please mention both start and end points.</string>
+    <string name="voice_error_location_not_found">Could not pinpoint your locations. Please try again with specific landmarks.</string>
+    <string name="voice_error_offline">You\'re offline. Connect to the internet to use voice trip creation.</string>
+    <string name="voice_error_generic">Could not create voice trip draft. Please try again or search manually.</string>
+    <string name="voice_clarification_title">Which location did you mean?</string>
+    <string name="voice_clarification_subtitle">Select the correct place from the search results below:</string>
+
+    <!-- Phase 13: Digital Ticketing, Fare & Payment -->
+    <string name="payment_screen_title">Ride Payment</string>
+    <string name="payment_loading_order">Preparing payment…</string>
+    <string name="payment_verifying_with_bank">Confirming payment with bank…</string>
+    <string name="payment_error_title">Payment Error</string>
+    <string name="payment_ride_details_header">Your Ride</string>
+    <string name="payment_pickup_label">Pickup</string>
+    <string name="payment_destination_label">Destination</string>
+    <string name="payment_origin_default">Current Pickup Location</string>
+    <string name="payment_destination_default">Destination Dropoff</string>
+    <string name="payment_fare_title">Total Fare</string>
+    <string name="payment_method_label">Payment Method</string>
+    <string name="payment_method_upi_online">UPI / Online Payment</string>
+    <string name="payment_pay_button">Pay %1$s</string>
+    <string name="payment_status_confirmed">Payment Confirmed</string>
+    <string name="payment_receipt_title">Ride Payment Receipt</string>
+    <string name="payment_receipt_amount_paid">Amount Paid</string>
+    <string name="payment_receipt_payment_id">Payment ID</string>
+    <string name="payment_receipt_reference">Reference</string>
+    <string name="payment_track_ride_button">Track Live Ride</string>
+    <string name="payment_pay_fare_card_button">Pay Fare</string>
+    <string name="payment_status_refunded">Payment Refunded</string>
+    <string name="payment_status_partially_refunded">Partially Refunded</string>
+    <string name="payment_refund_title">Ride Refund Notice</string>
+    <string name="payment_refunded_amount">Refunded Amount</string>
+    <string name="payment_gross_amount">Original Fare</string>
+    <string name="payment_failed_title">Payment Unsuccessful</string>
+    <string name="payment_retry_button">Retry Payment</string>
+    <string name="payment_back_to_home">Back to Home</string>
+
+    <!-- Phase 14: Route Schedules, Bus Stops & Offline Transit Cache -->
+    <string name="transit_routes_title">Public Transit Routes</string>
+    <string name="transit_routes_subtitle">Active lines &amp; scheduled stops</string>
+    <string name="transit_browse_card_title">Browse Routes &amp; Schedules</string>
+    <string name="transit_browse_card_subtitle">Explore active campus transit and city bus routes</string>
+    <string name="transit_route_details_title">Route Details</string>
+    <string name="transit_stops_title">Route Stops</string>
+    <string name="transit_schedule_title">Operating Information</string>
+    <string name="transit_schedule_active_notice">Active transit service operating now</string>
+    <string name="transit_schedule_no_static_timetables">Real-time active service. Static timetables are not exposed by the transit authority.</string>
+    <string name="transit_offline_banner">You\'re offline. Showing saved transit information.</string>
+    <string name="transit_freshness_just_now">Updated just now</string>
+    <string name="transit_empty_title">No routes available</string>
+    <string name="transit_empty_subtitle">No active transit services are currently operating in this area.</string>
+    <string name="transit_empty_offline">No saved transit information is available offline.</string>
+    <string name="transit_error_title">Couldn\'t load transit information</string>
+    <string name="transit_error_subtitle">Check your internet connection and try again.</string>
+    <string name="transit_refresh_button">Refresh</string>
+    <string name="transit_vehicle_details">Vehicle Details</string>
+    <string name="transit_track_live_trip">Track Live Bus</string>
 </resources>

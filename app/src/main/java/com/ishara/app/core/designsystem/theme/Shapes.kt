@@ -13,7 +13,8 @@ data class IshaaraShapes(
     val sm: Shape = RoundedCornerShape(8.dp),
     val md: Shape = RoundedCornerShape(12.dp),
     val lg: Shape = RoundedCornerShape(16.dp),
-    val pill: Shape = RoundedCornerShape(999.dp)
+    val pill: Shape = RoundedCornerShape(999.dp),
+    val card: Shape = RoundedCornerShape(12.dp)
 )
 
 val LocalIshaaraShapes = staticCompositionLocalOf { IshaaraShapes() }

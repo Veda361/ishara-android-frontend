@@ -11,7 +11,7 @@ object AuthMapper {
         return AuthSession(
             token = dto.token,
             userId = dto.userId,
-            role = UserRole.fromString(dto.role),
+            role = UserRole.fromBackendString(dto.role),
             expiresAtMillis = dto.expiresAt
         )
     }
@@ -22,9 +22,10 @@ object AuthMapper {
             name = dto.name,
             email = dto.email,
             phoneNumber = dto.phoneNumber,
-            role = UserRole.fromString(dto.role),
+            role = UserRole.fromBackendString(dto.role),
             profileImageUrl = dto.image,
-            isOnboarded = dto.isOnboarded
+            isOnboarded = dto.isOnboarded,
+            onboardingCompleted = dto.onboardingCompleted
         )
     }
 }

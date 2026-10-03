@@ -16,7 +16,7 @@ sealed interface NavigationCommand {
  * ViewModels emit navigation commands without holding direct Activity or NavController references.
  */
 class NavigationManager {
-    private val _commands = MutableSharedFlow<NavigationCommand>(extraBufferCapacity = 1)
+    private val _commands = MutableSharedFlow<NavigationCommand>(replay = 1, extraBufferCapacity = 1)
     val commands: SharedFlow<NavigationCommand> = _commands.asSharedFlow()
 
     fun navigate(route: String, popUpToRoute: String? = null, inclusive: Boolean = false) {

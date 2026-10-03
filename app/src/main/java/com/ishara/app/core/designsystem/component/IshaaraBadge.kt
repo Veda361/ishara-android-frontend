@@ -123,6 +123,14 @@ fun IshaaraStatusBadge(
     IshaaraStatusChip(status = status, modifier = modifier)
 }
 
+enum class IshaaraBadgeVariant {
+    Neutral,
+    Success,
+    Warning,
+    Danger,
+    Primary
+}
+
 /**
  * Clean metadata badge (e.g., "Bus 24", "12 seats", "Express").
  */
@@ -130,17 +138,34 @@ fun IshaaraStatusBadge(
 fun IshaaraBadge(
     text: String,
     modifier: Modifier = Modifier,
-    containerColor: Color = IshaaraTheme.colors.surfaceSubtle,
-    contentColor: Color = IshaaraTheme.colors.foreground
+    variant: IshaaraBadgeVariant = IshaaraBadgeVariant.Neutral,
+    containerColor: Color? = null,
+    contentColor: Color? = null
 ) {
     val typography = IshaaraTheme.typography
     val shapes = IshaaraTheme.shapes
     val borders = IshaaraTheme.borders
+    val colors = IshaaraTheme.colors
+
+    val (resolvedBg, resolvedContent) = if (containerColor != null || contentColor != null) {
+        Pair(
+            containerColor ?: colors.surfaceSubtle,
+            contentColor ?: colors.foreground
+        )
+    } else {
+        when (variant) {
+            IshaaraBadgeVariant.Neutral -> Pair(colors.surfaceSubtle, colors.foreground)
+            IshaaraBadgeVariant.Success -> Pair(colors.successSubtle, colors.success)
+            IshaaraBadgeVariant.Warning -> Pair(colors.accentSubtle, colors.accent)
+            IshaaraBadgeVariant.Danger -> Pair(colors.dangerSubtle, colors.danger)
+            IshaaraBadgeVariant.Primary -> Pair(colors.accentSubtle, colors.accent)
+        }
+    }
 
     Box(
         modifier = modifier
             .clip(shapes.xs)
-            .background(containerColor)
+            .background(resolvedBg)
             .border(width = borders.hairline, color = IshaaraTheme.colors.borderSubtle, shape = shapes.xs)
             .padding(horizontal = 8.dp, vertical = 3.dp),
         contentAlignment = Alignment.Center
@@ -148,7 +173,8 @@ fun IshaaraBadge(
         Text(
             text = text,
             style = typography.labelSmall,
-            color = contentColor
+            color = resolvedContent
         )
     }
 }
+
