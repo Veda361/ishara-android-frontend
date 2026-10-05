@@ -19,15 +19,15 @@ interface TripRemoteDataSource {
     ): IshaaraResult<ApiResponse<List<TripDto>>>
 
     suspend fun createTrip(token: String, request: CreateTripRequestDto): IshaaraResult<ApiResponse<TripDto>>
-    
+
     suspend fun getTripById(tripId: String, token: String): IshaaraResult<ApiResponse<TripDto>>
-    
+
     suspend fun startTrip(tripId: String, token: String): IshaaraResult<ApiResponse<Unit>>
-    
+
     suspend fun completeTrip(tripId: String, token: String): IshaaraResult<ApiResponse<Unit>>
-    
+
     suspend fun cancelTrip(tripId: String, token: String, reason: String): IshaaraResult<ApiResponse<Unit>>
-    
+
     suspend fun discoverTrips(request: DiscoverTripsRequestDto, token: String): IshaaraResult<ApiResponse<DiscoveryResponseDto>>
 }
 

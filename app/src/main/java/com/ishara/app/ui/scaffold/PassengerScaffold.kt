@@ -1,55 +1,156 @@
 package com.ishara.app.ui.scaffold
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ishara.app.core.designsystem.components.IshaaraIconButton
+import com.ishara.app.core.designsystem.components.IshaaraTopBar
 import com.ishara.app.navigation.Destination
+import com.ishara.app.core.designsystem.components.IshaaraNavigationDrawer
+import com.ishara.app.navigation.Graph
 import com.ishara.app.ui.screen.passenger.discover.DiscoverScreen
 import com.ishara.app.ui.screen.passenger.home.HomeScreen
 import com.ishara.app.ui.screen.passenger.profile.ProfileScreen
 import com.ishara.app.ui.screen.passenger.trips.TripsScreen
+import kotlinx.coroutines.launch
 
 @Composable
 fun PassengerScaffold(
-    @Suppress("UNUSED_PARAMETER")
     rootNavController: NavHostController
 ) {
-    val passengerNavController = rememberNavController()
 
-    Scaffold(
-        bottomBar = {
-            PassengerBottomBar(
-                navController = passengerNavController
+    val navController = rememberNavController()
+
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+
+    val scope = rememberCoroutineScope()
+
+    ModalNavigationDrawer(
+
+        drawerState = drawerState,
+
+        drawerContent = {
+
+            IshaaraNavigationDrawer(
+
+                onHomeClick = {
+                    navController.navigate(Destination.Home)
+                    scope.launch { drawerState.close() }
+                },
+
+                onDiscoverClick = {
+                    navController.navigate(Destination.Discover)
+                    scope.launch { drawerState.close() }
+                },
+
+                onTripsClick = {
+                    navController.navigate(Destination.Trips)
+                    scope.launch { drawerState.close() }
+                },
+
+                onProfileClick = {
+                    navController.navigate(Destination.Profile)
+                    scope.launch { drawerState.close() }
+                },
+
+                onDriverModeClick = {
+
+                    scope.launch {
+                        drawerState.close()
+                    }
+
+                    rootNavController.navigate(Graph.DRIVER) {
+                        launchSingleTop = true
+                    }
+                }
+
             )
+
         }
-    ) { padding ->
 
-        NavHost(
-            navController = passengerNavController,
-            startDestination = Destination.Home,
-            modifier = Modifier.padding(padding)
-        ) {
+    ) {
 
-            composable(Destination.Home) {
-                HomeScreen()
+        Scaffold(
+
+            topBar = {
+
+                IshaaraTopBar(
+
+                    title = "Ishaara",
+
+                    actions = {
+
+                        IshaaraIconButton(
+
+                            onClick = {
+
+                                scope.launch {
+                                    drawerState.open()
+                                }
+
+                            },
+
+                            contentDescription = "Menu"
+
+                        ) {
+
+                            Icon(
+                                imageVector = Icons.Rounded.Menu,
+                                contentDescription = null
+                            )
+
+                        }
+
+                    }
+
+                )
+
             }
 
-            composable(Destination.Discover) {
-                DiscoverScreen()
+        ) { padding ->
+
+            NavHost(
+
+                navController = navController,
+
+                startDestination = Destination.Home,
+
+                modifier = Modifier.padding(padding)
+
+            ) {
+
+                composable(Destination.Home) {
+                    HomeScreen()
+                }
+
+                composable(Destination.Discover) {
+                    DiscoverScreen()
+                }
+
+                composable(Destination.Trips) {
+                    TripsScreen()
+                }
+
+                composable(Destination.Profile) {
+                    ProfileScreen()
+                }
+
             }
 
-            composable(Destination.Trips) {
-                TripsScreen()
-            }
-
-            composable(Destination.Profile) {
-                ProfileScreen()
-            }
         }
+
     }
+
 }

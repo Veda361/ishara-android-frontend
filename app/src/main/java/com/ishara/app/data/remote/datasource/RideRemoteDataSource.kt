@@ -13,14 +13,14 @@ interface RideRemoteDataSource {
     suspend fun listMyRideRequests(token: String): IshaaraResult<ApiResponse<List<RideRequestDto>>>
     suspend fun getRideRequest(token: String, requestId: String): IshaaraResult<ApiResponse<RideRequestDto>>
     suspend fun cancelRideRequest(token: String, requestId: String, reason: String): IshaaraResult<ApiResponse<Unit>>
-    
+
     suspend fun acceptRideRequest(token: String, requestId: String): IshaaraResult<ApiResponse<RideDto>>
     suspend fun rejectRideRequest(token: String, requestId: String, reason: String): IshaaraResult<ApiResponse<Unit>>
 
     suspend fun getRide(token: String, rideId: String): IshaaraResult<ApiResponse<RideDto>>
     suspend fun getDriverLocation(token: String, rideId: String): IshaaraResult<ApiResponse<DriverLocationDto>>
     suspend fun getRideTracking(token: String, rideId: String): IshaaraResult<ApiResponse<RideTrackingDto>>
-    
+
     suspend fun driverArrived(token: String, rideId: String): IshaaraResult<ApiResponse<Unit>>
     suspend fun driverPickedUp(token: String, rideId: String): IshaaraResult<ApiResponse<Unit>>
     suspend fun startRide(token: String, rideId: String): IshaaraResult<ApiResponse<Unit>>
@@ -28,7 +28,7 @@ interface RideRemoteDataSource {
     suspend fun cancelRide(token: String, rideId: String, reason: String): IshaaraResult<ApiResponse<Unit>>
 
     suspend fun getFareBreakdown(token: String, rideId: String): IshaaraResult<ApiResponse<FareBreakdownDto>>
-    
+
     suspend fun createPaymentOrder(token: String, rideId: String, idempotencyKey: String? = null): IshaaraResult<ApiResponse<PaymentRecordDto>>
     suspend fun verifyPayment(token: String, paymentId: String, request: PaymentVerificationRequestDto): IshaaraResult<ApiResponse<PaymentRecordDto>>
 

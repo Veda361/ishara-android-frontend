@@ -11,10 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
-import com.ishara.app.ui.components.LogoutCard
-import com.ishara.app.ui.components.ProfileHeaderCard
-import com.ishara.app.ui.components.SavedPlacesCard
-import com.ishara.app.ui.components.SettingsCard
+import com.ishara.app.ui.components.common.LogoutCard
+import com.ishara.app.ui.components.profile.ProfileHeaderCard
+import com.ishara.app.ui.components.profile.SavedPlacesCard
+import com.ishara.app.ui.components.profile.SettingsCard
 
 @Composable
 fun ProfileScreen() {

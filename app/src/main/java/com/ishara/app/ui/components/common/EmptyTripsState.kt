@@ -1,4 +1,4 @@
-package com.ishara.app.ui.components
+package com.ishara.app.ui.components.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

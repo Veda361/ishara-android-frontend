@@ -1,8 +1,7 @@
-package com.ishara.app.ui.components
+package com.ishara.app.ui.components.trips
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,39 +11,33 @@ import com.ishara.app.core.designsystem.components.IshaaraCard
 import com.ishara.app.core.designsystem.theme.IshaaraTheme
 
 @Composable
-fun SettingsCard() {
+fun TripHistoryCard() {
 
     IshaaraCard {
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
 
             Text(
-                "Settings",
+                text = "Yesterday",
                 style = MaterialTheme.typography.titleMedium
             )
 
-            Text("🔔 Notifications")
+            Text("Hostel → Cafeteria")
 
-            HorizontalDivider()
-
-            Text("🎨 Theme")
-
-            HorizontalDivider()
-
-            Text("❓ Help & Support")
-
+            Text(
+                text = "Completed",
+                color = MaterialTheme.colorScheme.primary
+            )
         }
-
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun SettingsCardPreview() {
+private fun TripHistoryCardPreview() {
     IshaaraTheme {
-        SettingsCard()
+        TripHistoryCard()
     }
 }

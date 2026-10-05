@@ -67,8 +67,8 @@ class DefaultAppContainer(private val appContext: Context) : AppContainer {
         NetworkConfig()
     }
 
-    private val json = Json { 
-        ignoreUnknownKeys = true 
+    private val json = Json {
+        ignoreUnknownKeys = true
         encodeDefaults = true
     }
 

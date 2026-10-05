@@ -6,41 +6,57 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.ishara.app.ui.components.CampusMapPlaceholder
-import com.ishara.app.ui.components.NearbyStopsCard
-import com.ishara.app.ui.components.SearchDestinationCard
+import com.ishara.app.core.designsystem.theme.IshaaraTheme
+import com.ishara.app.ui.components.discover.PopularRoutesCard
+import com.ishara.app.ui.components.home.CampusMapCard
+import com.ishara.app.ui.components.home.HeroSearchCard
+import com.ishara.app.ui.components.home.NearbyRideSection
+import androidx.compose.ui.tooling.preview.Preview
+
 
 @Composable
 fun DiscoverScreen() {
+
     Column(
+
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(IshaaraTheme.spacing.lg),
+
+        verticalArrangement = Arrangement.spacedBy(
+            IshaaraTheme.spacing.lg
+        )
+
     ) {
 
-        SearchDestinationCard()
+        HeroSearchCard()
 
-        NearbyStopsCard()
+        NearbyRideSection()
 
         PopularRoutesCard()
 
-        CampusMapPlaceholder()
+        CampusMapCard()
 
     }
+
 }
 
+
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
-fun PopularRoutesCard() {
-    androidx.compose.material3.Card {
-        Text(
-            text = "Popular routes coming soon",
-            modifier = Modifier.padding(16.dp)
-        )
+private fun DiscoverScreenPreview() {
+
+    IshaaraTheme {
+
+        DiscoverScreen()
+
     }
+
 }

@@ -1,4 +1,4 @@
-package com.ishara.app.ui.components
+package com.ishara.app.ui.components.common
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

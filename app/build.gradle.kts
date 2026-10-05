@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -5,11 +7,21 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+
+
+
+val localProperties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+
+val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") ?: ""
+
 android {
     namespace = "com.ishara.app"
     compileSdk = 36
 
     defaultConfig {
+
         applicationId = "com.ishara.app"
         minSdk = 23
         targetSdk = 36
@@ -17,6 +29,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
+
     }
 
     buildTypes {
@@ -38,6 +53,12 @@ android {
 }
 
 dependencies {
+    // Google Maps
+    implementation("com.google.android.gms:play-services-maps:19.2.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+
+// Maps Compose
+    implementation("com.google.maps.android:maps-compose:6.4.0")
     implementation(libs.kotlinx.serialization.json)
     implementation(platform("com.google.firebase:firebase-bom:34.2.0"))
 
