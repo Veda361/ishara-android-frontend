@@ -54,6 +54,16 @@ interface AuthRepository {
     fun observeSession(): Flow<AuthSession?>
 
     /**
+     * Validates the current session with the backend.
+     */
+    suspend fun validateSession(): IshaaraResult<AuthSession>
+
+    /**
+     * Checks backend health/liveness.
+     */
+    suspend fun checkHealth(): IshaaraResult<Unit>
+
+    /**
      * Signs out the active user and clears stored credentials.
      */
     suspend fun signOut(): IshaaraResult<Unit>

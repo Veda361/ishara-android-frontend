@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -63,23 +64,23 @@ fun HeroSearchCard(
             ) {
 
                 Box(
-                    modifier = Modifier.background(
-                        Brush.linearGradient(
-                            listOf(
-                                Color(0xFF8B5CF6),
-                                Color(0xFF6D5EF9)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.linearGradient(
+                                colors = listOf(
+                                    Color(0xFF8B5CF6),
+                                    Color(0xFF6D5EF9)
+                                )
                             )
-                        )
-                    ),
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
-
                     Icon(
                         imageVector = Icons.Rounded.Search,
                         contentDescription = null,
                         tint = Color.White
                     )
-
                 }
 
             }

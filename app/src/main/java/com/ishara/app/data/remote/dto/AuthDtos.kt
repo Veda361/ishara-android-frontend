@@ -20,30 +20,27 @@ data class EmailOtpSignInRequestDto(
     val otp: String
 )
 
+/**
+ * Standard Better Auth response for successful sign-in.
+ */
 @Serializable
 data class AuthSessionResponseDto(
     val user: UserDto,
-    val token: String
+    val session: SessionDto
 )
 
 @Serializable
 data class SessionResponseDto(
     val session: SessionDto,
-    val user: SessionUserDto
+    val user: UserDto
 )
 
 @Serializable
 data class SessionDto(
     val id: String,
     val userId: String,
-    val expiresAt: String
-)
-
-@Serializable
-data class SessionUserDto(
-    val id: String,
-    val email: String,
-    val role: String
+    val expiresAt: String,
+    val token: String? = null // Sometimes token is separate, sometimes session.id is used
 )
 
 @Serializable
@@ -63,10 +60,10 @@ data class UpdateUserRequestDto(
 @Serializable
 data class UserDto(
     val id: String,
-    val email: String,
-    val name: String,
-    val role: String,
-    val isOnboarded: Boolean,
+    val email: String? = null,
+    val name: String? = null,
+    val role: String? = null,
+    val isOnboarded: Boolean = false,
     val phoneNumber: String? = null,
     val image: String? = null,
     val createdAt: String? = null

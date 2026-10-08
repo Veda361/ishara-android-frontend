@@ -8,16 +8,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ishara.app.core.designsystem.theme.IshaaraTheme
 import com.ishara.app.ui.components.common.LogoutCard
 import com.ishara.app.ui.components.profile.ProfileHeaderCard
 import com.ishara.app.ui.components.profile.SavedPlacesCard
 import com.ishara.app.ui.components.profile.SettingsCard
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    viewModel: ProfileViewModel
+) {
 
     Column(
         modifier = Modifier
@@ -33,14 +33,8 @@ fun ProfileScreen() {
 
         SettingsCard()
 
-        LogoutCard()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ProfileScreenPreview() {
-    IshaaraTheme {
-        ProfileScreen()
+        LogoutCard(
+            onLogout = { viewModel.logout() }
+        )
     }
 }

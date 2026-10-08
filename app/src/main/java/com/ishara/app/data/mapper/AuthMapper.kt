@@ -15,7 +15,7 @@ object AuthMapper {
     fun toDomain(dto: UserDto): User {
         return User(
             id = dto.id,
-            name = dto.name,
+            name = dto.name ?: "",
             email = dto.email,
             phoneNumber = dto.phoneNumber,
             role = UserRole.fromString(dto.role),
@@ -26,9 +26,9 @@ object AuthMapper {
 
     fun toAuthSession(dto: AuthSessionResponseDto): AuthSession {
         return AuthSession(
-            token = dto.token,
+            token = dto.session.token ?: dto.session.id,
             userId = dto.user.id,
-            email = dto.user.email,
+            email = dto.user.email ?: "",
             role = UserRole.fromString(dto.user.role),
             name = dto.user.name
         )
@@ -38,9 +38,9 @@ object AuthMapper {
         return AuthSession(
             token = token,
             userId = dto.user.id,
-            email = dto.user.email,
+            email = dto.user.email ?: "",
             role = UserRole.fromString(dto.user.role),
-            name = null
+            name = dto.user.name
         )
     }
 }

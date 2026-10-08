@@ -1,33 +1,31 @@
 package com.ishara.app.ui.screen.auth
 
-import androidx.compose.foundation.background
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.ishara.app.core.designsystem.theme.IshaaraTheme
-import androidx.compose.foundation.Image
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.ishara.app.R
+import com.ishara.app.feature.auth.LoginViewModel
 
 @Composable
 fun LoginScreen(
-    onLoginClick: () -> Unit
+    viewModel: LoginViewModel
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -35,7 +33,6 @@ fun LoginScreen(
             .padding(28.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Spacer(modifier = Modifier.weight(1f))
 
         Image(
@@ -70,6 +67,15 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
+        if (uiState.error != null) {
+            Text(
+                text = uiState.error ?: "",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
         Button(
             modifier = Modifier
                 .fillMaxWidth()
@@ -78,21 +84,31 @@ fun LoginScreen(
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF635BFF)
             ),
-            onClick = onLoginClick
+            enabled = !uiState.isLoading,
+            onClick = { 
+                Log.d("AUTH_DEBUG", "LoginScreen: Google Sign-In button clicked")
+                viewModel.signInWithGoogle(context) 
+            }
         ) {
+            if (uiState.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = Color.White,
+                    strokeWidth = 2.dp
+                )
+            } else {
+                Text(
+                    "Continue with Google",
+                    color = Color.White
+                )
 
-            Text(
-                "Continue with Google",
-                color = Color.White
-            )
+                Spacer(modifier = Modifier.width(8.dp))
 
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Icon(
-                Icons.Rounded.ArrowForward,
-                null
-            )
-
+                Icon(
+                    Icons.Rounded.ArrowForward,
+                    null
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -104,18 +120,5 @@ fun LoginScreen(
         )
 
         Spacer(modifier = Modifier.height(24.dp))
-    }
-}
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-private fun LoginScreenPreview() {
-    IshaaraTheme {
-        LoginScreen(
-            onLoginClick = {}
-        )
     }
 }

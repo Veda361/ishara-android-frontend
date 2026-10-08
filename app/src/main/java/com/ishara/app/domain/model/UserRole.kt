@@ -1,9 +1,12 @@
 package com.ishara.app.domain.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * The two supported Android roles in the Ishaara platform.
  * Note: AGENCY_OWNER belongs exclusively to the future separate web dashboard and is excluded here.
  */
+@Serializable
 enum class UserRole {
     /** Passenger / Student */
     USER,
